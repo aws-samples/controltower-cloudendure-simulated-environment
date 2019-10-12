@@ -1,0 +1,39 @@
+@model PaginatedList<DMSSample.Models.SeatType>
+
+@{
+    ViewData["Title"] = "Seat Types";
+}
+
+<input type="hidden" id="searchString" value="@ViewData["SearchString"]"/>
+<input type="hidden" id="sortOrder"/>
+<div class="card mb-3">
+    <div class="card-header">
+        <i class="fa fa-table"></i> Seat Types List
+        | <a asp-action="Create" class="btn btn-outline-info rounded-circle la-button-sm" title="Create New"><i class="fa fa-plus la-icon-add"></i></a>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th>
+                            <a href="#" action="/SeatType/SearchList" sort-order="description" sort-direction="">Description</a>
+                        </th>
+                        <th>
+                            <a href="#" action="/SeatType/SearchList" sort-order="relative_quality" sort-direction="">Relative Quality</a>
+                        </th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody id="tableContents" action-data="/SeatType/SearchList">
+                    <tr>
+                        <td colspan="3" class="text-center">
+                            <i class="fa fa-refresh fa-spin" style="font-size:24px"></i>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <script src="~/js/site.list.js" asp-append-version="true"></script>
+</div>

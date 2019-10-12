@@ -1,0 +1,67 @@
+@model DMSSample.Models.SportTeam
+
+@{
+    Layout = "~/Views/Shared/_FormLayout.cshtml";
+    ViewData["Title"] = "Create";
+}
+
+<div class="card card-register mx-auto mt-5">
+    <div class="card-header">Create a Team</div>
+    <div class="card-body">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <div class="form-row">
+                    <div class="col-md-12">
+                        <label asp-for="Name" class="control-label"></label>
+                        <input asp-for="Name" class="form-control" />
+                        <span asp-validation-for="Name" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="form-row">
+                    <div class="col-md-6">
+                        <label asp-for="AbbreviatedName" class="control-label"></label>
+                        <input asp-for="AbbreviatedName" class="form-control" />
+                        <span asp-validation-for="AbbreviatedName" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-6">
+                        <label asp-for="SportTypeName" class="control-label"></label>
+                        <select asp-for="SportTypeName" class ="form-control" asp-items="ViewBag.SportTypeName"></select>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="form-row">
+                    <div class="col-md-12">
+                        <label asp-for="HomeFieldId" class="control-label"></label>
+                        <select asp-for="HomeFieldId" class ="form-control" asp-items="ViewBag.HomeFieldId"></select>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="form-row">
+                    <div class="col-md-6">
+                        <label asp-for="SportLeagueShortName" class="control-label"></label>
+                        <input asp-for="SportLeagueShortName" class="form-control" />
+                        <span asp-validation-for="SportLeagueShortName" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-6">
+                        <label asp-for="SportDivisionShortName" class="control-label"></label>
+                        <input asp-for="SportDivisionShortName" class="form-control" />
+                        <span asp-validation-for="SportDivisionShortName" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="text-center">
+                <input type="submit" value="Create" class="btn btn-info" />
+                <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

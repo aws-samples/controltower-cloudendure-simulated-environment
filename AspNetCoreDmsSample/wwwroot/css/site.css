@@ -1,0 +1,95 @@
+﻿body {
+    padding-top: 50px;
+    padding-bottom: 20px;
+}
+
+/* Wrapping element */
+/* Set some basic padding to keep content from hitting the edges */
+.body-content {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+/* Carousel */
+.carousel-caption p {
+    font-size: 20px;
+    line-height: 1.4;
+}
+
+/* Make .svg files in the carousel display properly in older browsers */
+.carousel-inner .item img[src$=".svg"] {
+    width: 100%;
+}
+
+/* QR code generator */
+#qrCode {
+    margin: 15px;
+}
+
+/* Hide/rearrange for smaller screens */
+@media screen and (max-width: 767px) {
+    /* Hide captions */
+    .carousel-caption {
+        display: none;
+    }
+}
+
+/* List Action Buttons */
+.la-button-sm
+{
+    width: 16pt; 
+    height: 16pt; 
+    padding: 0pt;
+}
+
+.la-icon-details
+{
+    width:16pt; 
+    height:16pt; 
+    position: relative; 
+    top:-1pt; 
+    left:-1pt
+}
+
+.la-icon-delete
+{
+    position: relative; 
+    width:16pt; 
+    height:16pt; 
+    top:-2pt; 
+    left:-1pt
+}
+
+.la-icon-edit
+{
+    width:16pt; 
+    height:16pt; 
+    position: relative; 
+    top:-2pt; 
+    left:0pt
+}
+.la-icon-add
+{
+    width:16pt; 
+    height:16pt; 
+    position: relative; 
+    top:-1pt; 
+    left:-1pt
+}
+/*Popup Cards*/
+.card-50
+{
+    max-width: 50rem;
+}
+.card-60
+{
+    max-width: 60rem;
+}
+.card-70
+{
+    max-width: 70rem;
+}
+.card-80
+{
+    max-width: 80rem;
+}

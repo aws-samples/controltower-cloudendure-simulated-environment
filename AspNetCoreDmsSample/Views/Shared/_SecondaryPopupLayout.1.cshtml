@@ -1,0 +1,14 @@
+@using Microsoft.AspNetCore.Http
+<div class="modal-backdrop" id="modalBackground1Popup" style="opacity:0.5">
+</div>
+<div class="modal-backdrop" id="modalBackgroundPopup" style="background-color:transparent">
+    @RenderBody()
+</div>
+@RenderSection("Scripts", required: false)
+<script type="text/javascript">
+    $("#modalBackgroundPopup").click(function(){
+        if(event.srcElement.id == "modalBackgroundPopup"){
+            $("#popupContainerPopup").html("");
+        }
+    })
+</script>

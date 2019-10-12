@@ -1,0 +1,158 @@
+@model DMSSample.Models.SportingEventTicketFilter
+
+@{
+    ViewData["Title"] = "Sporting Event Tickets";
+}
+<input type="hidden" id="searchString" value="@ViewData["SearchString"]"/>
+<input type="hidden" id="sortOrder"/>
+<div class="card mb-3">
+    <div class="card-header">
+        <i class="fa fa-filter"></i> Filter Options
+    </div>
+    <div class="card-body">
+        <div class="form-group">
+            <div class="form-row">
+                <div class="col-md-3">
+                        <label asp-for="SportingEventDateFilter" class="control-label"></label>
+                        <input asp-for="SportingEventDateFilter" class="form-control" placeholder="Insert the Event Date" />
+                        <span asp-validation-for="SportingEventDateFilter" class="text-danger"></span>
+                </div>
+                <div class="col-md-9">
+                    <label asp-for="SportingEventIdFilter" class="control-label">Event</label>
+                    <select asp-for="SportingEventIdFilter" class="form-control" action-data="/SportingEventTicket/FilterList"></select>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="card mb-3">
+    <div class="card-header">
+        <i class="fa fa-table"></i> Sporting Event Tickets List
+        | <a href="#" id="btnCreate" action="/SportingEventTicket/Create" class="btn btn-outline-info rounded-circle la-button-sm" title="Create New"><i class="fa fa-plus la-icon-add"></i></a>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th>
+                            <a href="#" action="/SportingEventTicket/SearchList" sort-order="ticket_price" sort-direction="">Ticket Price</a>
+                        </th>
+                        <th>
+                            <a href="#" action="/SportingEventTicket/SearchList" sort-order="seat_section" sort-direction="">Section</a>
+                        </th>
+                        <th>
+                            <a href="#" action="/SportingEventTicket/SearchList" sort-order="sport_type" sort-direction="">Sport</a>
+                        </th>
+                        <th>
+                            <a href="#" action="/SportingEventTicket/SearchList" sort-order="ticket_holder" sort-direction="">Ticket Holder</a>
+                        </th>
+                        <th>
+                        
+                        </th>
+                    </tr>
+                </thead>
+                <tbody id="tableContents" action-data="/SportingEventTicket/SearchList">
+                    <tr>
+                        <td colspan="5" class="text-center">
+                            <div class="badge-primary rounded">
+                                <i class="fa fa-info-circle"></i>
+                                Select an event to view the tickets.
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<div id="popupContainer"></div>
+<script type="text/javascript">
+    function changeFilterStartDate(sportingEventId, callbackFunction){
+        $("#SportingEventIdFilter").html("<option value=\"\">Loading...</option>");
+        $.getJSON($("#SportingEventIdFilter").attr("action-data") + "?SportingEventDate=" + $("#SportingEventDateFilter").val(), function(data){
+            var items = "";
+            if(data.length > 0){
+                items = "<option value=\"\">Select an Event</option>";
+                $.each(data, function(i, row){
+                    if(row.value != sportingEventId){
+                        items += "<option value=\"" + row.value + "\">" + row.text + "</option>";
+                    }else{
+                        items += "<option value=\"" + row.value + "\" selected >" + row.text + "</option>";
+                    }
+                })
+            }else{
+                items = "<option value=\"\">There are no events scheduled on this date</option>";
+            }
+            $("#SportingEventIdFilter").html(items);
+
+            if(callbackFunction != null){
+                var callbacks = $.Callbacks();
+                callbacks.add(callbackFunction);
+                callbacks.fire();
+            }
+        });
+    }
+
+    function changeFilterEventId(){
+        if($("#SportingEventIdFilter").val() != ""){
+            $("#tableContents").html("<tr><td colspan=\"5\" class=\"text-center\"><i class=\"fa fa-refresh fa-spin\" style=\"font-size:24px\"></i></td></tr>");
+            $.ajax({
+                type: "GET", 
+                url: $("#tableContents").attr("action-data"),
+                data: { sortOrder: "", searchString: $("#searchString").val(), page: 1, sportingEventId: $("#SportingEventIdFilter").val() },
+                dataType: "html", 
+                success: function(response){
+                    $('#tableContents').html(response);
+                }
+            });
+        }else{
+            $('#tableContents').html("<tr><td colspan=\"5\" class=\"text-center\"><div class=\"badge-primary rounded\"><i class=\"fa fa-info-circle\"></i> Select an event to view the tickets.</div></td></tr>");
+        }
+    }
+
+    $(document).ready(function(){
+        if($("#SportingEventDateFilter").val() != "" && $("#SportingEventIdFilter").val() != ""){
+            changeFilterStartDate( $("#SportingEventIdFilter").val(), changeFilterEventId);
+        }
+        $("#SportingEventDateFilter").on("change", function(){
+            changeFilterStartDate();
+        });
+        $("#SportingEventIdFilter").on("change", function(){
+            changeFilterEventId();
+        });
+        $("#dataTable > thead > tr > th").find("a").on("click", function(){
+            $("#sortOrder").val(($(this).attr("sort-direction") == "") ? $(this).attr("sort-order") : $(this).attr("sort-order") + "_" + $(this).attr("sort-direction"));
+            $("#tableContents").html("<tr><td colspan=\"5\" class=\"text-center\"><i class=\"fa fa-refresh fa-spin\" style=\"font-size:24px\"></i></td></tr>");
+            $.ajax({
+                type: "GET", 
+                url: $(this).attr("action"),
+                data: { sortOrder: $("#sortOrder").val(), searchString: $("#searchString").val(), page: 1, sportingEventId: $("#SportingEventIdFilter").val() },
+                dataType: "html",
+                success: function(response){
+                    $('#tableContents').html(response);
+                }
+            });
+            $(this).attr("sort-direction",  $(this).attr("sort-direction") == "" ? "desc" : "");
+        });
+        $("#btnCreate").on("click", function(){
+            $.ajax({
+                type: "GET",
+                url: $(this).attr("action"),
+                dataType: "html",
+                success: function(response){
+                    $("#popupContainer").html(response);
+                    $("#popupCreate").dialog({
+                        autoOpen: true,
+                        resizable: false,
+                        modal: true,
+                        width: "60rem",
+                        close: function(event, ui){
+                            $("#popupCreate").remove();
+                        }
+                    });
+                }
+            });
+        });
+    })
+</script>

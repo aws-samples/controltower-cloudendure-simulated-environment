@@ -1,0 +1,302 @@
+@model DMSSample.Models.SportingEventTicket
+
+@{
+    //Layout = "~/Views/Shared/_PopupLayout.cshtml";
+    ViewData["Title"] = "Create";
+}
+
+<div id="popupCreate" class="card card-60" title="Create a Ticket">
+    <form asp-action="Create" id="formData" action-callback="created">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="form-group">
+            <div class="form-row">
+                <div class="col-md-3">
+                    <label asp-for="SportingEvent.StartDate" class="control-label"></label>
+                    <input asp-for="SportingEvent.StartDate" class="form-control" action="/SportingEventTicket/FilterList" />
+                    <span asp-validation-for="SportingEvent.StartDate" class="text-danger"></span>
+                </div>
+                <div class="col-md-9">
+                    <label class="control-label" for="SportingEventId">Event</label>
+                    <select name="SportingEventId" id="SportingEventId" class="form-control" action="/SportingEventTicket/SportLocationDetails"></select>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="form-row">
+                <div class="col-md-12">
+                    <input asp-for="SportLocationId" type="hidden" />
+                    <label asp-for="SportingEvent.Location.Name" class="control-label"></label>
+                    <input asp-for="SportingEvent.Location.Name" class ="form-control" readonly />
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="form-row">
+                <div class="col-md-3">
+                    <label asp-for="SeatLevel" class="control-label"></label>
+                    <select asp-for="SeatLevel" class ="form-control" action="/SportingEventTicket/SeatSectionList"></select>
+                </div>
+                <div class="col-md-3">
+                    <label asp-for="SeatSection" class="control-label"></label>
+                    <select asp-for="SeatSection" class ="form-control" action="/SportingEventTicket/SeatRowList"></select>
+                </div>
+                <div class="col-md-3">
+                    <label asp-for="SeatRow" class="control-label"></label>
+                    <select asp-for="SeatRow" class ="form-control" action="/SportingEventTicket/SeatList"></select>
+                </div>
+                <div class="col-md-3">
+                    <label asp-for="Seat" class="control-label"></label>
+                    <select asp-for="Seat" class ="form-control"></select>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="form-row">
+                <div class="col-md-12">
+                    <input asp-for="TicketholderId" type="hidden"/>
+                    <label asp-for="Ticketholder.FullName" class="control-label"></label>
+                    <div class="input-group">
+                        <input class="form-control" type="text" placeholder="Search for Ticketholder..." asp-for="Ticketholder.FullName" readonly />
+                        <span class="input-group-append">
+                            <button class="btn btn-primary" id="browseTicketHolder" action="/Person/Index" type="button">
+                                <i class="fa fa-ellipsis-h"></i>
+                            </button>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="form-row">
+                <div class="col-md-12">
+                    <label asp-for="TicketPrice" class="control-label"></label>
+                    <input asp-for="TicketPrice" class="form-control" />
+                    <span asp-validation-for="TicketPrice" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+        <div class="text-center">
+            <input type="submit" value="Create" class="btn btn-info" />
+            <a href="#" id="btnCancel" class="btn btn-secondary">Back to List</a>
+        </div>
+    </form>
+</div>
+<div id="dialogContainer"></div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+
+<script type="text/javascript" src="/js/site.popup.js"></script>
+<script type="text/javascript">
+    var returnCodeField = null;
+    var returnDescriptionField = null;
+
+    function changeStartDate(sportingEventId, callbackFunction){
+        console.warn("Update date..." + sportingEventId);
+        $("#SportingEventId").html("<option value=\"\">Loading...</option>");
+        $("#popupIcon").html("<i class=\"fa fa-refresh fa-spin\"></i>");
+        $.getJSON($("#SportingEvent_StartDate").attr("action") + "?SportingEventDate=" + $("#SportingEvent_StartDate").val(), function(data){
+            var items = "";
+            if(data != null && data.length > 0){
+                items = "<option value=\"\">Select an Event</option>";
+                $.each(data, function(i, row){
+                    if(row.value != sportingEventId){
+                        items += "<option value=\"" + row.value + "\">" + row.text + "</option>";
+                    }else{
+                        items += "<option value=\"" + row.value + "\" selected >" + row.text + "</option>";
+                    }
+                })
+            }else{
+                items = "<option value=\"\">There are no events scheduled on this date</option>";
+            }
+            $("#SportingEventId").html(items);
+            console.warn("success!!!");
+            if(callbackFunction != null){
+                var callbacks = $.Callbacks();
+                callbacks.add(callbackFunction);
+                callbacks.fire();
+            }
+        });
+    }
+
+    function changeEventId(){
+        console.warn("Update Event...");
+        $("#popupIcon").html("<i class=\"fa fa-refresh fa-spin\"></i>");
+        $("#SportingEvent_Location_Name").attr("value", "Loading...");
+        $("#SeatLevel").html("<option value=\"\">Loading...</option>");
+        $("#SeatSection").html("");
+        $("#SeatRow").html("");
+        $("#Seat").html("");
+        $.getJSON($("#SportingEventId").attr("action") + "?SportingEventId=" + $("#SportingEventId").val(), function(data){
+            if(data != null && data.location != null){
+                $("#SportLocationId").attr("value", data.location.id);
+                $("#SportingEvent_Location_Name").attr("value", data.location.city + " - " + data.location.name);
+                console.warn($("#SportingEvent_Location_Name").attr("value", data.location.city + " - " + data.location.name));
+                var items = "";
+                if(data.seatLevels.length > 0){
+                        items = "<option value=\"\">Select a Level</option>";
+                        $.each(data.seatLevels, function(i, row){
+                        items += "<option value=\"" + row.level + "\">" + row.level + "</option>";
+                    })
+                }else{
+                    items = "<option value=\"\">No Levels</option>";
+                }
+                $("#SeatLevel").html(items);
+                console.warn("Event Updated!!!");
+            }else{
+                $("#SportLocationId").attr("value", "");
+                $("#SportingEvent_Location_Name").attr("value", "Select an Event");
+                $("#SeatLevel").html("");
+            }
+        });
+    }
+    function created(data){
+        console.warn(data);
+        if(data != null){
+            if(data.returnCode == 0){
+                $("#dialogContainer").html("<p>" + data.success.message + "</p>");
+                showDialog("Create Ticket", {
+                    Ok: function(){ $(this).dialog("close"); }
+                });
+            }else{
+                if(data.returnCode < 0){
+                    if(data.errors.length > 0){
+                        var errors = "";
+                        $.each(data.errors, function(i, error) {
+                            errors += "<p>" + error.errorCode + " - " + error.errorMessage + "</p>";
+                        });
+                        $("#dialogContainer").html(errors);
+                        showDialog("Create Ticket", {
+                            Ok: function(){ $(this).dialog("close"); }
+                        });
+                    }
+                }
+            }
+        }
+    }
+
+    function showDialog(dialogTitle, dialogButtons){
+        console.warn(dialogButtons);
+        $("#dialogContainer").dialog({
+            modal: true,
+            buttons: {
+                 Ok: function(){ $(this).dialog("close"); }
+            }
+        });
+        $("#popupCreate").dialog("close");
+                changeFilterEventId();
+    }
+
+    $(document).ready(function(){
+        if($("#SportingEventDateFilter").val() != "" && $("#SportingEventIdFilter").val() != ""){
+            $("#SportingEvent_StartDate").val($("#SportingEventDateFilter").val());
+            changeStartDate( $("#SportingEventIdFilter").val(), changeEventId);
+        }
+
+        $("#SportingEvent_StartDate").on("change", function(){
+            changeStartDate();
+        });
+        $("#SportingEventId").on("change", function(){
+            changeEventId();
+        });
+        $("#SeatLevel").on("change", function(){
+            $("#popupIcon").html("<i class=\"fa fa-refresh fa-spin\"></i>");
+            $("#SeatSection").html("<option value=\"\">Loading...</option>");
+            $("#SeatRow").html("");
+            $("#Seat").html("");
+            $.getJSON($("#SeatLevel").attr("action") + "?SportLocationId=" + $("#SportLocationId").val() + "&SeatLevel=" + $(this).val(), function(data){
+                if(data != null){
+                    var items = "";
+                    items = "<option value=\"\">Select a Section</option>";
+                    if(data.length > 0){
+                        $.each(data, function(i, row){
+                            items += "<option value=\"" + row.section + "\">" + row.section + "</option>";
+                        })
+                    }else{
+                        items = "<option value=\"\">No Sections</option>";
+                    }
+                    $("#SeatSection").html(items);
+                }else{
+                    $("#SeatSection").html("");
+                }
+                $("#popupIcon").html("<i class=\"fa fa-ticket\"></i>");
+            });
+        });
+        $("#SeatSection").on("change", function(){
+            $("#popupIcon").html("<i class=\"fa fa-refresh fa-spin\"></i>");
+            $("#Seat").html("");
+            $("#SeatRow").html("<option value=\"\">Loading...</option>");
+            $.getJSON($("#SeatSection").attr("action") + "?SportLocationId=" + $("#SportLocationId").val() + "&SeatLevel=" + $("#SeatLevel").val() + "&SeatSection=" + $(this).val(), function(data){
+                if(data != null){
+                    var items = "";
+                    if(data.length > 0){
+                        items = "<option value=\"\">Select a Row</option>";
+                        $.each(data, function(i, row){
+                            items += "<option value=\"" + row.row + "\">" + row.row + "</option>";
+                        })
+                    }else{
+                        items = "<option value=\"\">No Rows</option>";
+                    }
+                    $("#SeatRow").html(items);
+                }else{
+                    $("#SeatRow").html("");
+                }
+                $("#popupIcon").html("<i class=\"fa fa-ticket\"></i>");
+            })
+        });
+        $("#SeatRow").on("change", function(){
+            $("#popupIcon").html("<i class=\"fa fa-refresh fa-spin\"></i>");
+            $("#Seat").html("<option value=\"\">Loading...</option>");
+            $.getJSON($("#SeatRow").attr("action") + "?SportLocationId=" + $("#SportLocationId").val() + "&SeatLevel=" + $("#SeatLevel").val() + "&SeatSection=" + $("#SeatSection").val() + "&SeatRow=" + $(this).val(), function(data){
+                if(data != null){
+                    var items = "";
+                    items = "<option value=\"\">Select a Seat</option>";
+                    if(data.length > 0){
+                        $.each(data, function(i, row){
+                            items += "<option value=\"" + row.seat + "\">" + row.seat + "</option>";
+                        })
+                    }else{
+                        items = "<option value=\"\">No Seats</option>";
+                    }
+                    $("#Seat").html(items);
+                }else{
+                    $("#Seat").html("");
+                }
+                $("#popupIcon").html("<i class=\"fa fa-ticket\"></i>");
+            });
+        });
+        $("#browseTicketHolder").on("click", function(){
+            returnCodeField = "TicketholderId";
+            returnDescriptionField = "Ticketholder_FullName";
+            $.ajax({
+                type: "GET",
+                url: $(this).attr("action"),
+                data: { isPopup: true },
+                dataType: "html", 
+                success: function(response){
+                    $('#dialogContainer').html(response);
+                    $("#popupSelect").dialog({
+                        autoOpen: true,
+                        show: {
+                            effect: "slide",
+                            duration: 500
+                        },
+                        resizable: false,
+                        modal: true,
+                        width: "60rem",
+                        close: function(event, ui){
+                            console.warn("Cleared..."); 
+                            $("#popupSelect").remove();
+                        }
+                    });
+                }
+            });
+        });
+
+        $("#btnCancel").click(function(){
+            $("#popupCreate").dialog("close");
+            console.warn("Assigned...");
+        });
+    })
+</script>

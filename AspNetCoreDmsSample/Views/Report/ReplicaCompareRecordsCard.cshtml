@@ -1,0 +1,14 @@
+@model DMSSample.Models.RecordCounts
+<div class="card text-white bg-@Model.Status o-hidden h-100">
+    <div class="card-body">
+        <div class="card-body-icon">
+        <i class="fa fa-fw fa-@Model.Icon"></i>
+        </div>
+        <div class="mr-5"><b>@Model.Table </b>@Model.Primary</div>
+        <div class="mr-5">Record(s) on Primary</div>
+    </div>
+    <a class="card-footer text-white clearfix small z-1" href="#">
+        <div class="mr-5">@Model.Replica</div>
+        <div class="mr-5">Record(s) on Replica</div>
+    </a>
+</div>

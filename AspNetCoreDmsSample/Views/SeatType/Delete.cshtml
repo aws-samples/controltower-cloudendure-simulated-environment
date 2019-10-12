@@ -1,0 +1,36 @@
+@model DMSSample.Models.SeatType
+
+@{
+    Layout = "~/Views/Shared/_FormLayout.cshtml";
+    ViewData["Title"] = "Delete";
+}
+<div class="card card-register mx-auto mt-5">
+    <div class="card-header">Delete Seat Type</div>
+    <div class="card-body">
+        <form asp-action="Delete">
+            <div class="alert alert-danger">
+                <i class="fa fa-exclamation"></i>
+                Are you sure you want to delete this?
+            </div>
+            <dl class="dl-horizontal">
+                <dt>
+                    @Html.DisplayNameFor(model => model.Description)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.Description)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.RelativeQuality)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.RelativeQuality)
+                </dd>
+            </dl>
+            <input type="hidden" asp-for="Name" />
+            <div class="text-center">
+                <input type="submit" value="Delete" class="btn btn-danger" />
+                <a asp-action="Index" class="btn btn-secondary">Back To List</a>
+            </div>
+        </form>
+    </div>
+</div>

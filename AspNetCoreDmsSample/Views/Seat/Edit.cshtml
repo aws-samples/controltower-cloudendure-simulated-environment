@@ -1,0 +1,99 @@
+@model DMSSample.Models.Seat
+
+@{
+    Layout = "~/Views/Shared/_FormLayout.cshtml";
+    ViewData["Title"] = "Edit";
+}
+
+<div class="card card-register mx-auto mt-5">
+    <div class="card-header">Edit a Seat</div>
+    <div class="card-body">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="SportLocationId" />
+            <input type="hidden" asp-for="SeatLevel" />
+            <input type="hidden" asp-for="SeatSection" />
+            <input type="hidden" asp-for="SeatRow" />
+            <input type="hidden" asp-for="Seat1" />
+            <div class="form-group">
+                <div class="form-row">
+                    <div class="col-md-12">
+                        <dl class="dl-horizontal">
+                            <dt>
+                                @Html.DisplayNameFor(model => model.SportLocation)
+                            </dt>
+                            <dd>
+                                @Html.DisplayFor(model => model.SportLocation.Name)
+                            </dd>
+                        </dl>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="form-row">
+                    <div class="col-md-6">
+                        <dl class="dl-horizontal">
+                            <dt>
+                                @Html.DisplayNameFor(model => model.SeatLevel)
+                            </dt>
+                            <dd>
+                                @Html.DisplayFor(model => model.SeatLevel)
+                            </dd>
+                        </dl>
+                    </div>
+                    <div class="col-md-6">
+                        <dl class="dl-horizontal">
+                            <dt>
+                                @Html.DisplayNameFor(model => model.SeatSection)
+                            </dt>
+                            <dd>
+                                @Html.DisplayFor(model => model.SeatSection)
+                            </dd>
+                        </dl>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="form-row">
+                    <div class="col-md-6">
+                        <dl class="dl-horizontal">
+                            <dt>
+                                @Html.DisplayNameFor(model => model.SeatRow)
+                            </dt>
+                            <dd>
+                                @Html.DisplayFor(model => model.SeatRow)
+                            </dd>
+                        </dl>
+                    </div>
+                    <div class="col-md-6">
+                        <dl class="dl-horizontal">
+                            <dt>
+                                @Html.DisplayNameFor(model => model.Seat1)
+                            </dt>
+                            <dd>
+                                @Html.DisplayFor(model => model.Seat1)
+                            </dd>
+                        </dl>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="form-row">
+                    <div class="col-md-12">
+                        <label asp-for="SeatType" class="control-label"></label>
+                        <select asp-for="SeatType" class="form-control" asp-items="ViewBag.SeatType"></select>
+                        <span asp-validation-for="SeatType" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="text-center">
+                <input type="submit" value="Save" class="btn btn-primary" />
+                <a asp-action="Index" class="btn btn-secondary">Back To List</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

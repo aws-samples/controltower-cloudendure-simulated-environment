@@ -1,0 +1,79 @@
+@model DMSSample.Models.SportingEvent
+
+@{
+    Layout = "~/Views/Shared/_FormLayout.cshtml";
+    ViewData["Title"] = "Edit";
+}
+
+<div class="card card-register mx-auto mt-5">
+    <div class="card-header">Edit a Sporting Event</div>
+    <div class="card-body">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" />
+            <div class="form-group">
+                <div class="form-row">
+                    <div class="col-md-6">
+                        <label asp-for="StartDate" class="control-label"></label>
+                        <input asp-for="StartDate" class="form-control" />
+                        <span asp-validation-for="StartDate" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-6">
+                        <label asp-for="StartDateTime" class="control-label"></label>
+                        <input asp-for="StartDateTime" class="form-control" />
+                        <span asp-validation-for="StartDateTime" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="form-row">
+                    <div class="col-md-12">
+                        <label asp-for="SportTypeName" class="control-label"></label>
+                        <select asp-for="SportTypeName" class="form-control" asp-items="ViewBag.SportTypeName"></select>
+                        <span asp-validation-for="SportTypeName" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="form-row">
+                    <div class="col-md-6">
+                        <label asp-for="HomeTeamId" class="control-label"></label>
+                        <select asp-for="HomeTeamId" class="form-control" asp-items="ViewBag.HomeTeamId"></select>
+                        <span asp-validation-for="HomeTeamId" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-6">
+                        <label asp-for="AwayTeamId" class="control-label"></label>
+                        <select asp-for="AwayTeamId" class="form-control" asp-items="ViewBag.AwayTeamId"></select>
+                        <span asp-validation-for="AwayTeamId" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="form-row">
+                    <div class="col-md-12">
+                        <label asp-for="LocationId" class="control-label"></label>
+                        <select asp-for="LocationId" class="form-control" asp-items="ViewBag.LocationId"></select>
+                        <span asp-validation-for="LocationId" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="form-row">
+                    <div class="col-md-12">
+                        <label asp-for="SoldOut" class="control-label"></label>
+                        <input asp-for="SoldOut" class="form-control" />
+                        <span asp-validation-for="SoldOut" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="text-center">
+                <input type="submit" value="Save" class="btn btn-primary" />
+                <a asp-action="Index" class="btn btn-secondary">Back To List</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

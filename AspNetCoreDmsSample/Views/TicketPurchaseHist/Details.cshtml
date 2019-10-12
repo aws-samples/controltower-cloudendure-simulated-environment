@@ -1,0 +1,42 @@
+@model DMSSample.Models.TicketPurchaseHist
+
+@{
+    Layout = "~/Views/Shared/_FormLayout.cshtml";
+    ViewData["Title"] = "Details";
+}
+<div class="card card-register mx-auto mt-5">
+    <div class="card-header">Ticket Purchase History Details</div>
+    <div class="card-body">
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.PurchasePrice)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.PurchasePrice)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.PurchasedBy)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.PurchasedBy.FullName)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.SportingEventTicket)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.SportingEventTicket.Seat)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.TransferredFrom)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.TransferredFrom.FullName)
+            </dd>
+        </dl>
+    </div>
+    <div class="text-center">
+        <a href="@Url.Action("Edit", "TicketPurchaseHist", new { SportingEventTicketId = Model.SportingEventTicketId, PurchasedById = Model.PurchasedById, TransactionDateTime = Model.TransactionDateTime })" class="btn btn-info">Edit</a>
+        <a asp-action="Index" class="btn btn-secondary">Back To List</a>
+    </div>
+    <p></p>
+</div>

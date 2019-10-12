@@ -1,0 +1,167 @@
+@model DMSSample.Models.SportingEventTicket
+
+@{
+    //Layout = "~/Views/Shared/_PopupLayout.cshtml";
+    ViewData["Title"] = "Edit";
+}
+
+<div id="popupEdit" class="card card-60" title="Edit a Ticket">
+    <form asp-action="Edit" id="formData" action-callback="edited">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="form-group">
+            <div class="form-row">
+                <div class="col-md-3">
+                    <label asp-for="SportingEvent.StartDate" class="control-label"></label>
+                    <input asp-for="SportingEvent.StartDate" class="form-control" readonly />
+                    <span asp-validation-for="SportingEvent.StartDate" class="text-danger"></span>
+                </div>
+                <div class="col-md-9">
+                    <input asp-for="SportingEventId" type="hidden" />
+                    <label class="control-label" for="SportingEventId">Event</label>
+                    <input asp-for="SportingEvent.EventDescription" class ="form-control" readonly />
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="form-row">
+                <div class="col-md-12">
+                    <input asp-for="SportLocationId" type="hidden" />
+                    <label asp-for="SportingEvent.Location.Name" class="control-label"></label>
+                    <input asp-for="SportingEvent.Location.Name" class ="form-control" readonly />
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="form-row">
+                <div class="col-md-3">
+                    <label asp-for="SeatLevel" class="control-label"></label>
+                    <input asp-for="SeatLevel" class ="form-control" readonly />
+                </div>
+                <div class="col-md-3">
+                    <label asp-for="SeatSection" class="control-label"></label>
+                    <input asp-for="SeatSection" class ="form-control" readonly />
+                </div>
+                <div class="col-md-3">
+                    <label asp-for="SeatRow" class="control-label"></label>
+                    <input asp-for="SeatRow" class ="form-control" readonly />
+                </div>
+                <div class="col-md-3">
+                    <label asp-for="Seat" class="control-label"></label>
+                    <input asp-for="Seat" class ="form-control" readonly />
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="form-row">
+                <div class="col-md-12">
+                    <input asp-for="TicketholderId" type="hidden"/>
+                    <label asp-for="Ticketholder.FullName" class="control-label"></label>
+                    <div class="input-group">
+                        <input class="form-control" type="text" placeholder="Search for Ticketholder..." asp-for="Ticketholder.FullName" readonly />
+                        <span class="input-group-append">
+                            <button class="btn btn-primary" id="browseTicketHolder" action="/Person/Index" type="button">
+                                <i class="fa fa-ellipsis-h"></i>
+                            </button>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="form-row">
+                <div class="col-md-12">
+                    <label asp-for="TicketPrice" class="control-label"></label>
+                    <input asp-for="TicketPrice" class="form-control" />
+                    <span asp-validation-for="TicketPrice" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+        <div class="text-center">
+            <input type="submit" value="Save" class="btn btn-info" />
+            <a href="#" id="btnCancel" class="btn btn-secondary">Back to List</a>
+        </div>
+    </form>
+</div>
+<div id="dialogContainer"></div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+
+<script type="text/javascript" src="/js/site.popup.js"></script>
+<script type="text/javascript">
+    var returnCodeField = null;
+    var returnDescriptionField = null;
+
+    function edited(data){
+        console.warn(data);
+        if(data != null){
+            if(data.returnCode == 0){
+                $("#dialogContainer").html("<p>" + data.success.message + "</p>");
+                showDialog("Edit a Ticket", {
+                    Ok: function(){ $(this).dialog("close"); }
+                });
+                $("#popupEdit").dialog("close");
+                changeFilterEventId();
+            }else{
+                if(data.returnCode < 0){
+                    if(data.errors.length > 0){
+                        var errors = "";
+                        $.each(data.errors, function(i, error) {
+                            errors += "<p>" + error.errorCode + " - " + error.errorMessage + "</p>";
+                        });
+                        $("#dialogContainer").html(errors);
+                        showDialog("Edit a Ticket", {
+                            Ok: function(){ $(this).dialog("close"); }
+                        });
+                    }
+                }
+            }
+        }
+    }
+
+    function showDialog(dialogTitle, dialogButtons){
+        console.warn(dialogButtons);
+        $("#dialogContainer").dialog({
+            modal: true,
+            buttons: {
+                 Ok: function(){ $(this).dialog("close"); }
+            }
+        });
+    }
+
+    $(document).ready(function(){
+        $("#browseTicketHolder").on("click", function(){
+            returnCodeField = "TicketholderId";
+            returnDescriptionField = "Ticketholder_FullName";
+            $.ajax({
+                type: "GET",
+                url: $(this).attr("action"),
+                data: { isPopup: true },
+                dataType: "html", 
+                success: function(response){
+                    $('#dialogContainer').html(response);
+                    $("#popupSelect").dialog({
+                        autoOpen: true,
+                        show: {
+                            effect: "slide",
+                            duration: 500
+                        },
+                        resizable: false,
+                        modal: true,
+                        width: "60rem",
+                        close: function(event, ui){
+                            console.warn("Cleared..."); 
+                            $("#popupSelect").remove();
+                        }
+                    });
+                }
+            });
+        });
+
+        $("#btnCancel").click(function(){
+            $("#popupEdit").dialog("close");
+            console.warn("Assigned...");
+        });
+    })
+</script>

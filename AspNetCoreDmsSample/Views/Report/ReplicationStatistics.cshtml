@@ -1,0 +1,44 @@
+@model List<DMSSample.Models.DisplayTableStatistics>
+@{
+    ViewData["Title"] = "Index";
+}
+
+<!-- Icon Cards-->
+@for (int i = 0; i < Model.Count; i += 4) {
+    <div class="row">
+        <div class="col-xl-3 col-sm-6 mb-3">
+            <div class="card text-white @Model[i].StatusColor o-hidden h-100">
+                <div class="card-body">
+                    <div class="card-body-icon">
+                    <i class="fa fa-fw @Model[i].DisplayIcon"></i>
+                    </div>
+                    <div class="mr-5"><b>Table: </b>@Model[i].Statistics.TableName</div>
+                </div>
+                <a class="card-footer text-white clearfix small z-1" href="@Url.Action("ReplicationDetails", "Report", new { TableName = Model[i].Statistics.TableName})">
+                    <span class="float-left">View Details</span>
+                    <span class="float-right">
+                        <i class="fa fa-angle-right"></i>
+                    </span>
+                </a>
+            </div>
+        </div>
+        @for(int j = 1; (j < 4 && ((i) + j < Model.Count)); j++){
+            <div class="col-xl-3 col-sm-6 mb-3">
+            <div class="card text-white @Model[i + j].StatusColor o-hidden h-100">
+                <div class="card-body">
+                    <div class="card-body-icon">
+                    <i class="fa fa-fw @Model[i + j].DisplayIcon"></i>
+                    </div>
+                    <div class="mr-5"><b>Table: </b>@Model[i + j].Statistics.TableName</div>
+                </div>
+                <a class="card-footer text-white clearfix small z-1" href="@Url.Action("ReplicationDetails", "Report", new { TableName = Model[i+j].Statistics.TableName})">
+                    <span class="float-left">View Details</span>
+                    <span class="float-right">
+                        <i class="fa fa-angle-right"></i>
+                    </span>
+                </a>
+            </div>
+            </div>
+        }
+    </div>    
+}

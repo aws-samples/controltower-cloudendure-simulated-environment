@@ -1,0 +1,255 @@
+﻿@using Microsoft.AspNetCore.Http
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>DMS - Sample - @Context.Session.GetString("PrimaryServerType")</title>
+
+    <environment include="Development">
+        <link rel="stylesheet" href="~/lib/bootstrap/css/bootstrap.min.css" />
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
+        <link rel="stylesheet" href="~/lib/datatables/dataTables.bootstrap4.css" />
+        <link rel="stylesheet" href="~/css/sb-admin.min.css" />
+        <link rel="stylesheet" href="~/css/site.css" />
+        <link rel="stylesheet" href="~/css/jquery-ui.css"/>
+        <link rel="stylesheet" href="~/css/jquery-ui.structure.css"/>
+        <link rel="stylesheet" href="~/css/jquery-ui.theme.css"/>
+    </environment>
+    <environment exclude="Development">
+        <link rel="stylesheet" href="https://ajax.aspnetcdn.com/ajax/bootstrap/4.0.0/css/bootstrap.min.css"
+              asp-fallback-href="~/lib/bootstrap/css/bootstrap.min.css"
+              asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute" />
+        <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" asp-append-version="true" />
+        <link rel="stylesheet" href="~/lib/datatables/dataTables.bootstrap4.css" asp-append-version="true" />
+        <link rel="stylesheet" href="~/css/sb-admin.min.css" asp-append-version="true" />
+        <link rel="stylesheet" href="~/css/jquery-ui.min.css" asp-append-version="true" />
+        <link rel="stylesheet" href="~/css/jquery-ui.structure.min.css" asp-append-version="true" />
+        <link rel="stylesheet" href="~/css/jquery-ui.theme.min.css" asp-append-version="true" />
+    </environment>
+</head>
+<body class="fixed-nav sticky-footer bg-dark" id="page-top">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" id="mainNav">
+        <a class="navbar-brand" asp-controller="Home" asp-action="Index">DMSSample</a>
+        <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="navbar-collapse collapse" id="navbarResponsive">
+            <ul class="navbar-nav navbar-sidenav" id="menuAccordion">
+                <li class="nav-item" data-toggle="tooltip" data-placement="right" title="People">
+                    <a class="nav-link nav-link-collapse collapsed" data-toggle="collapse" href="#collapsePeople" data-parent="#menuAccordion">
+                        <i class="fa fa-fw fa-user"></i>
+                        <span class="nav-link-text">People</span>
+                    </a>
+                    <ul class="sidenav-second-level collapse" id="collapsePeople">
+                        <li><a asp-area="" asp-controller="Person" asp-action="Index">Person</a></li>
+                        <li><a asp-area="" asp-controller="Player" asp-action="Index">Player</a></li>
+                        <li><a asp-area="" asp-controller="NameData" asp-action="Index">Name Data</a></li>
+                        <li><a asp-area="" asp-controller="SportTeam" asp-action="Index">Sport Team</a></li>
+                    </ul>
+                </li>    
+                <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Ticket">
+                    <a class="nav-link nav-link-collapse collapsed" data-toggle="collapse" href="#collapseTicket" data-parent="#menuAccordion">
+                        <i class="fa fa-fw fa-ticket"></i>
+                        <span class="nav-link-text">Ticket</span>
+                    </a>
+                    <ul class="sidenav-second-level collapse" id="collapseTicket">
+                        <li><a asp-area="" asp-controller="SportingEventTicket" asp-action="Index">Sporting Event Ticket</a></li>
+                        <li><a asp-area="" asp-controller="TicketPurchaseHist" asp-action="Index">Ticket Purchase History</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item" data-toggle="tooltip" data-placement="right" title="League">
+                    <a class="nav-link nav-link-collapse collapsed" data-toggle="collapse" href="#collapseLeague" data-parent="#menuAccordion">
+                        <i class="fa fa-fw fa-trophy"></i>
+                        <span class="nav-link-text">League</span>
+                    </a>
+                    <ul class="sidenav-second-level collapse" id="collapseLeague">
+                        <li><a asp-area="" asp-controller="SportLeague" asp-action="Index">Sport League</a></li>
+                        <li><a asp-area="" asp-controller="SportDivision" asp-action="Index">Sport Division</a></li>
+                        <li><a asp-area="" asp-controller="SportingEvent" asp-action="Index">Sporting Event</a></li>
+                        <li><a asp-area="" asp-controller="SportType" asp-action="Index">Sport Type</a></li>
+                    </ul>
+                </li>    
+                <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Location">
+                    <a class="nav-link nav-link-collapse collapsed" data-toggle="collapse" href="#collapseLocation" data-parent="#menuAccordion">
+                        <i class="fa fa-fw fa-globe"></i>
+                        <span class="nav-link-text">Location</span>
+                    </a>
+                    <ul class="sidenav-second-level collapse" id="collapseLocation">
+                        <li><a asp-area="" asp-controller="SportTeam" asp-action="Index">Sport Team</a></li>
+                        <li><a asp-area="" asp-controller="Seat" asp-action="Index">Seat</a></li>
+                        <li><a asp-area="" asp-controller="SeatType" asp-action="Index">Seat Type</a></li>
+                        <li><a asp-area="" asp-controller="SportLocation" asp-action="Index">Sport Location</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Reports">
+                    <a class="nav-link nav-link-collapse collapsed" data-toggle="collapse" href="#collapseReports" data-parent="#menuAccordion">
+                        <i class="fa fa-fw fa-address-book"></i>
+                        <span class="nav-link-text">Reports</span>
+                    </a>
+                    <ul class="sidenav-second-level collapse" id="collapseReports">
+                        <li><a asp-area="" asp-controller="Report" asp-action="ReplicaCompareRecords">Replica Compare Records</a></li>
+                        <li><a asp-area="" asp-controller="Report" asp-action="ReplicationStatistics">Replication Statistics</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Link">
+                    <a asp-controller="Home" asp-action="About" class="nav-link">
+                        <i class="fa fa-fw fa-question"></i>
+                        <span class="nav-link-text">About</span>
+                    </a>
+                </li>
+                <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Link">
+                    <a asp-controller="Home" asp-action="Contact" class="nav-link">
+                        <i class="fa fa-fw fa-phone"></i>
+                        <span class="nav-link-text">Contact</span>
+                    </a>
+                </li>
+            </ul>
+            <!-- Toggler -->
+            <ul class="navbar-nav sidenav-toggler">
+                <li class="nav-item">
+                <a class="nav-link text-center" id="sidenavToggler">
+                    <i class="fa fa-fw fa-angle-left"></i>
+                </a>
+                </li>
+            </ul>
+            <!-- Top -->
+            <ul class="navbar-nav ml-auto">
+                <!-- <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle mr-lg-2" id="messagesDropdown" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <i class="fa fa-fw fa-envelope"></i>
+                    <span class="d-lg-none">Messages
+                    <span class="badge badge-pill badge-primary">12 New</span>
+                    </span>
+                    <span class="indicator text-primary d-none d-lg-block">
+                    <i class="fa fa-fw fa-circle"></i>
+                    </span>
+                </a> -->
+                <!-- <div class="dropdown-menu" aria-labelledby="messagesDropdown">
+                    <h6 class="dropdown-header">New Messages:</h6>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="#">
+                    <strong>David Miller</strong>
+                    <span class="small float-right text-muted">11:21 AM</span>
+                    <div class="dropdown-message small">Hey there! This new version of SB Admin is pretty awesome! These messages clip off when they reach the end of the box so they don't overflow over to the sides!</div>
+                    </a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="#">
+                    <strong>Jane Smith</strong>
+                    <span class="small float-right text-muted">11:21 AM</span>
+                    <div class="dropdown-message small">I was wondering if you could meet for an appointment at 3:00 instead of 4:00. Thanks!</div>
+                    </a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="#">
+                    <strong>John Doe</strong>
+                    <span class="small float-right text-muted">11:21 AM</span>
+                    <div class="dropdown-message small">I've sent the final files over to you for review. When you're able to sign off of them let me know and we can discuss distribution.</div>
+                    </a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item small" href="#">View all messages</a>
+                </div>
+                </li>
+                <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle mr-lg-2" id="alertsDropdown" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <i class="fa fa-fw fa-bell"></i>
+                    <span class="d-lg-none">Alerts
+                    <span class="badge badge-pill badge-warning">6 New</span>
+                    </span>
+                    <span class="indicator text-warning d-none d-lg-block">
+                    <i class="fa fa-fw fa-circle"></i>
+                    </span>
+                </a>
+                <div class="dropdown-menu" aria-labelledby="alertsDropdown">
+                    <h6 class="dropdown-header">New Alerts:</h6>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="#">
+                    <span class="text-success">
+                        <strong>
+                        <i class="fa fa-long-arrow-up fa-fw"></i>Status Update</strong>
+                    </span>
+                    <span class="small float-right text-muted">11:21 AM</span>
+                    <div class="dropdown-message small">This is an automated server response message. All systems are online.</div>
+                    </a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="#">
+                    <span class="text-danger">
+                        <strong>
+                        <i class="fa fa-long-arrow-down fa-fw"></i>Status Update</strong>
+                    </span>
+                    <span class="small float-right text-muted">11:21 AM</span>
+                    <div class="dropdown-message small">This is an automated server response message. All systems are online.</div>
+                    </a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="#">
+                    <span class="text-success">
+                        <strong>
+                        <i class="fa fa-long-arrow-up fa-fw"></i>Status Update</strong>
+                    </span>
+                    <span class="small float-right text-muted">11:21 AM</span>
+                    <div class="dropdown-message small">This is an automated server response message. All systems are online.</div>
+                    </a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item small" href="#">View all alerts</a>
+                </div>
+                </li> -->
+                @{ Html.RenderPartial("_Search"); }
+                <li class="nav-item">
+                <a class="nav-link" data-toggle="modal" data-target="#exampleModal">
+                    <i class="fa fa-fw fa-sign-out"></i>Logout</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="content-wrapper">
+        <!-- <environment include="Development"> -->
+            <script src="~/lib/jquery/jquery.min.js"></script>
+            <script src="~/lib/bootstrap/js/bootstrap.bundle.min.js"></script>
+            <script src="~/lib/jquery.easing/jquery.easing.min.js"></script>
+            <script src="~/lib/chart.js/Chart.min.js"></script>
+            <script src="~/js/site.min.js" asp-append-version="true"></script>
+            <script src="~/js/sb-admin-charts.min.js" asp-append-version="true"></script>
+            <script src="~/js/sb-admin.min.js" asp-append-version="true"></script>
+            <script src="~/js/jquery-ui.min.js" asp-append-version="true"></script>
+        <!-- </environment> -->
+        <!-- <environment exclude="Development">
+            <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-3.3.1.min.js"
+                    asp-fallback-src="~/lib/jquery/jquery.min.js"
+                    asp-fallback-test="window.jQuery"
+                    crossorigin="anonymous"
+                    integrity="sha384-K+ctZQ+LL8q6tP7I94W+qzQsfRV2a+AfHIi9k8z8l9ggpc8X+Ytst4yBo/hH+8Fk">
+            </script>
+            <script src="https://ajax.aspnetcdn.com/ajax/bootstrap/4.0.0/bootstrap.min.js"
+                    asp-fallback-src="~/lib/bootstrap/js/bootstrap.min.js"
+                    asp-fallback-test="window.jQuery && window.jQuery.fn && window.jQuery.fn.modal"
+                    crossorigin="anonymous"
+                    integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa">
+            </script>
+            <script src="~/js/site.min.js" asp-append-version="true"></script>
+            <script src="~/js/sb-admin-datatables.min.js" asp-append-version="true"></script>
+            <script src="~/js/sb-admin-charts.min.js" asp-append-version="true"></script>
+            <script src="~/js/sb-admin.min.js" asp-append-version="true"></script>
+        </environment> -->
+
+        <div class="container">
+            @RenderBody()
+            <hr>
+        </div>
+
+        @RenderSection("Scripts", required: false)
+    </div>
+    <footer class="fixed-bottom" style="background-color: white">
+        <div class="container">
+            <span class="col-md-6">
+                <b>Server : </b><a asp-area="" asp-controller="Home" asp-action="Index" title="@Context.Session.GetString("PrimaryServerName")">@Context.Session.GetString("PrimaryServerName").PadRight(100,' ').Remove(50)</a>
+                &nbsp;|&nbsp; 
+                <b>Database : </b><a asp-area="" asp-controller="Home" asp-action="Index" title="@Context.Session.GetString("PrimaryDatabaseName")">@Context.Session.GetString("PrimaryDatabaseName").PadRight(100,' ').Remove(50)</a>
+            </span>
+            <span class="col-md-6 text-right">
+                <b>&copy; 2018 - DMSSample - @Context.Session.GetString("PrimaryServerType")&reg; version</b>
+            <span>
+        </div>
+    </footer>
+</body>
+</html>

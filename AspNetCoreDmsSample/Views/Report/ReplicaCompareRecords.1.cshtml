@@ -1,0 +1,325 @@
+@model DMSSample.Models.ReplicaCompareRecords
+@{
+    ViewData["Title"] = "Index";
+}
+
+<!-- Icon Cards-->
+<div class="row">
+    <div class="col-xl-3 col-sm-6 mb-3" id="cardNameData">
+
+    </div>
+    <!-- <div class="col-xl-3 col-sm-6 mb-3">
+        <div class="card text-white bg-@ViewData["NameDataStatus"] o-hidden h-100">
+        <div class="card-body">
+            <div class="card-body-icon">
+            <i class="fa fa-fw fa-user"></i>
+            </div>
+            <div class="mr-5"><b>Names Data: </b>@Model.NameData.Primary</div>
+            <div class="mr-5">Record(s) on Primary</div>
+        </div>
+        <a class="card-footer text-white clearfix small z-1" href="#">
+            <div class="mr-5">@Model.NameData.Replica</div>
+            <div class="mr-5">Record(s) on Replica</div>
+        </a>
+        </div>
+    </div> -->
+    <div class="col-xl-3 col-sm-6 mb-3">
+        <div class="card text-white bg-@ViewData["PersonStatus"] o-hidden h-100">
+        <div class="card-body">
+            <div class="card-body-icon">
+            <i class="fa fa-fw fa-user"></i>
+            </div>
+            <div class="mr-5"><b>Persons: </b>@Model.Person.Primary</div>
+            <div class="mr-5">Record(s) on Primary</div>
+        </div>
+        <a class="card-footer text-white clearfix small z-1" href="#">
+            <div class="mr-5">@Model.Person.Replica</div>
+            <div class="mr-5">Record(s) on Replica</div>
+        </a>
+        </div>
+    </div>
+    <div class="col-xl-3 col-sm-6 mb-3">
+        <div class="card text-white bg-@ViewData["PlayerStatus"] o-hidden h-100">
+        <div class="card-body">
+            <div class="card-body-icon">
+            <i class="fa fa-fw fa-user"></i>
+            </div>
+            <div class="mr-5"><b>Players: </b>@Model.Player.Primary</div>
+            <div class="mr-5">Record(s) on Primary</div>
+        </div>
+        <a class="card-footer text-white clearfix small z-1" href="#">
+            <div class="mr-5">@Model.Player.Replica</div>
+            <div class="mr-5">Record(s) on Replica</div>
+        </a>
+        </div>
+    </div>
+    <div class="col-xl-3 col-sm-6 mb-3">
+        <div class="card text-white bg-@ViewData["SeatStatus"] o-hidden h-100">
+        <div class="card-body">
+            <div class="card-body-icon">
+            <i class="fa fa-fw fa-globe"></i>
+            </div>
+            <div class="mr-5"><b>Seat: </b>@Model.Seat.Primary</div>
+            <div class="mr-5">Record(s) on Primary</div>
+        </div>
+        <a class="card-footer text-white clearfix small z-1" href="#">
+            <div class="mr-5">@Model.Seat.Replica</div>
+            <div class="mr-5">Record(s) on Replica</div>
+        </a>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-xl-3 col-sm-6 mb-3">
+        <div class="card text-white bg-@ViewData["SeatTypeStatus"] o-hidden h-100">
+        <div class="card-body">
+            <div class="card-body-icon">
+            <i class="fa fa-fw fa-globe"></i>
+            </div>
+            <div class="mr-5"><b>Seat Types: </b>@Model.SeatType.Primary</div>
+            <div class="mr-5">Record(s) on Primary</div>
+        </div>
+        <a class="card-footer text-white clearfix small z-1" href="#">
+            <div class="mr-5">@Model.SeatType.Replica</div>
+            <div class="mr-5">Record(s) on Replica</div>
+        </a>
+        </div>
+    </div>
+    <div class="col-xl-3 col-sm-6 mb-3">
+        <div class="card text-white bg-@ViewData["SportDivisionStatus"] o-hidden h-100">
+        <div class="card-body">
+            <div class="card-body-icon">
+            <i class="fa fa-fw fa-trophy"></i>
+            </div>
+            <div class="mr-5"><b>Sport Divisions: </b>@Model.SportDivision.Primary</div>
+            <div class="mr-5">Record(s) on Primary</div>
+        </div>
+        <a class="card-footer text-white clearfix small z-1" href="#">
+            <div class="mr-5">@Model.SportDivision.Replica</div>
+            <div class="mr-5">Record(s) on Replica</div>
+        </a>
+        </div>
+    </div>
+    <div class="col-xl-3 col-sm-6 mb-3">
+        <div class="card text-white bg-@ViewData["SportingEventStatus"] o-hidden h-100">
+        <div class="card-body">
+            <div class="card-body-icon">
+            <i class="fa fa-fw fa-soccer-ball-o"></i>
+            </div>
+            <div class="mr-5"><b>Events: </b>@Model.SportingEvent.Primary</div>
+            <div class="mr-5">Record(s) on Primary</div>
+        </div>
+        <a class="card-footer text-white clearfix small z-1" href="#">
+            <div class="mr-5">@Model.SportingEvent.Replica</div>
+            <div class="mr-5">Record(s) on Replica</div>
+        </a>
+        </div>
+    </div>
+    <div class="col-xl-3 col-sm-6 mb-3">
+        <div class="card text-white bg-@ViewData["SportingEventTicketStatus"] o-hidden h-100">
+        <div class="card-body">
+            <div class="card-body-icon">
+            <i class="fa fa-fw fa-ticket"></i>
+            </div>
+            <div class="mr-5"><b>Tickets: </b>@Model.SportingEventTicket.Primary</div>
+            <div class="mr-5">Record(s) on Primary</div>
+        </div>
+        <a class="card-footer text-white clearfix small z-1" href="#">
+            <div class="mr-5">@Model.SportingEventTicket.Replica</div>
+            <div class="mr-5">Record(s) on Replica</div>
+        </a>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-xl-3 col-sm-6 mb-3">
+        <div class="card text-white bg-@ViewData["SportLeagueStatus"] o-hidden h-100">
+        <div class="card-body">
+            <div class="card-body-icon">
+            <i class="fa fa-fw fa-trophy"></i>
+            </div>
+            <div class="mr-5"><b>Leagues: </b>@Model.SportLeague.Primary</div>
+            <div class="mr-5">Record(s) on Primary</div>
+        </div>
+        <a class="card-footer text-white clearfix small z-1" href="#">
+            <div class="mr-5">@Model.SportLeague.Replica</div>
+            <div class="mr-5">Record(s) on Replica</div>
+        </a>
+        </div>
+    </div>
+    <div class="col-xl-3 col-sm-6 mb-3">
+        <div class="card text-white bg-@ViewData["SportLocationStatus"] o-hidden h-100">
+        <div class="card-body">
+            <div class="card-body-icon">
+            <i class="fa fa-fw fa-globe"></i>
+            </div>
+            <div class="mr-5"><b>Sport Locations: </b>@Model.SportLocation.Primary</div>
+            <div class="mr-5">Record(s) on Primary</div>
+        </div>
+        <a class="card-footer text-white clearfix small z-1" href="#">
+            <div class="mr-5">@Model.SportLocation.Replica</div>
+            <div class="mr-5">Record(s) on Replica</div>
+        </a>
+        </div>
+    </div>
+    <div class="col-xl-3 col-sm-6 mb-3">
+        <div class="card text-white bg-@ViewData["SportTeamStatus"] o-hidden h-100">
+        <div class="card-body">
+            <div class="card-body-icon">
+            <i class="fa fa-fw fa-users"></i>
+            </div>
+            <div class="mr-5"><b>Teams: </b>@Model.SportTeam.Primary</div>
+            <div class="mr-5">Record(s) on Primary</div>
+        </div>
+        <a class="card-footer text-white clearfix small z-1" href="#">
+            <div class="mr-5">@Model.SportTeam.Replica</div>
+            <div class="mr-5">Record(s) on Replica</div>
+        </a>
+        </div>
+    </div>
+    <div class="col-xl-3 col-sm-6 mb-3">
+        <div class="card text-white bg-@ViewData["SportTypeStatus"] o-hidden h-100">
+        <div class="card-body">
+            <div class="card-body-icon">
+            <i class="fa fa-fw fa-soccer-ball-o"></i>
+            </div>
+            <div class="mr-5"><b>Sports: </b>@Model.SportType.Primary</div>
+            <div class="mr-5">Record(s) on Primary</div>
+        </div>
+        <a class="card-footer text-white clearfix small z-1" href="#">
+            <div class="mr-5">@Model.SportType.Replica</div>
+            <div class="mr-5">Record(s) on Replica</div>
+        </a>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-xl-3 col-sm-6 mb-3">
+        <div class="card text-white bg-@ViewData["TicketPurchaseHistStatus"] o-hidden h-100">
+        <div class="card-body">
+            <div class="card-body-icon">
+            <i class="fa fa-fw fa-history"></i>
+            </div>
+            <div class="mr-5"><b>Ticket History: </b>@Model.TicketPurchaseHist.Primary</div>
+            <div class="mr-5">Record(s) on Primary</div>
+        </div>
+        <a class="card-footer text-white clearfix small z-1" href="#">
+            <div class="mr-5">@Model.TicketPurchaseHist.Replica</div>
+            <div class="mr-5">Record(s) on Replica</div>
+        </a>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-12">
+        <!-- Example Bar Chart Card-->
+        <div class="card mb-3">
+            <div class="card-header">
+                <i class="fa fa-bar-chart"></i>Record Number</div>
+            <div class="card-body">
+                <canvas id="myBarChart" width="100" height="50"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts
+{
+    <script type="text/javascript">
+        // Chart.js scripts
+        // -- Set new default font family and font color to mimic Bootstrap's default styling
+        Chart.defaults.global.defaultFontFamily = '-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';
+        Chart.defaults.global.defaultFontColor = '#292b2c';
+        var theAxis;
+        // -- Bar Chart Example
+        var ctx = document.getElementById("myBarChart");
+        var myLineChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: ["NameData", "Person", "Player", "Seat", "SeatType", "SportDivision", "SportingEvent", "SportingEventTicket", "SportLeague", "SportLocation", "SportTeam", "SportType", "TicketPurchaseHist"],
+            datasets: [
+            {
+            label: "Primary",
+            backgroundColor: "rgba(2,117,216,1)",
+            borderColor: "rgba(2,117,216,1)",
+            data: [
+                    @Model.NameData.Primary, 
+                    @Model.Person.Primary,
+                    @Model.Player.Primary,
+                    @Model.Seat.Primary, 
+                    @Model.SeatType.Primary, 
+                    @Model.SportDivision.Primary, 
+                    @Model.SportingEvent.Primary, 
+                    @Model.SportingEventTicket.Primary, 
+                    @Model.SportLeague.Primary, 
+                    @Model.SportLocation.Primary, 
+                    @Model.SportTeam.Primary, 
+                    @Model.SportType.Primary, 
+                    @Model.TicketPurchaseHist.Primary
+                ],
+            },
+            {
+            label: "Replica",
+            backgroundColor: "rgba(225,0,0,1)",
+            borderColor: "rgba(225,0,0,1)",
+            data: [
+                    @Model.NameData.Replica, 
+                    @Model.Person.Replica,
+                    @Model.Player.Replica,
+                    @Model.Seat.Replica, 
+                    @Model.SeatType.Replica, 
+                    @Model.SportDivision.Replica, 
+                    @Model.SportingEvent.Replica, 
+                    @Model.SportingEventTicket.Replica, 
+                    @Model.SportLeague.Replica, 
+                    @Model.SportLocation.Replica, 
+                    @Model.SportTeam.Replica, 
+                    @Model.SportType.Replica, 
+                    @Model.TicketPurchaseHist.Replica
+                ],
+            }
+            
+            ],
+        },
+        options: {
+			responsive: true,
+			title: {
+				display: true,
+				text: 'Number of Records'
+			},
+			scales: {
+				xAxes: [{
+					display: true,
+				}],
+				yAxes: [{
+                    ticks: {
+                            maxTicksLimit: 10,
+                            callback: function(value, index, values) {
+                                if(index == 0 || value.toString().startsWith('1')){
+                                    if(Math.floor(value / Math.pow(10, 6)) > 0){
+                                        return (value / Math.pow(10, 6)) + ' M';
+                                    }else if (Math.floor(value / Math.pow(10, 3)) > 0){
+                                        return (value / Math.pow(10, 3)) + ' K';
+                                    }else{
+                                        return value + '';
+                                    }
+                                }else{
+                                    return '';
+                                }
+                            }
+                        },
+					display: true,
+					type: 'logarithmic',
+                    beforeBuildTicks: function(axis){
+                        theAxis = axis;    
+                    }
+				}]
+			}
+		}
+        });
+    </script>
+}

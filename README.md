@@ -1,11 +1,12 @@
-## My Project
+## Migrating an Existing Workload to an AWS Control Tower governed Account using CloudEndure
 
-TODO: Fill this README out!
+This project is a sample application to be used as an on-premises simulated environment. Don't use as a production application.
 
-Be sure to:
+This environment is composed by:
 
-* Change the title in this README
-* Edit your repository description on GitHub
+* Cloudformation to create the environment
+* Sample dotnet application
+* Sample database dms_sample
 
 ## License
 

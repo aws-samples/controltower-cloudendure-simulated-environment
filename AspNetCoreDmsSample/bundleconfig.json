@@ -1,0 +1,227 @@
+﻿// Configure bundling and minification for the project.
+// More info at https://go.microsoft.com/fwlink/?LinkId=808241
+[
+  {
+    "outputFileName": "wwwroot/css/site.min.css",
+    // An array of relative input file paths. Globbing patterns supported
+    "inputFiles": [
+      "wwwroot/css/site.css"
+    ],
+    // Optionally specify minification options
+    "minify": {
+      "enabled": true,
+      "renameLocals": true
+    },
+    // Optionally generate .map file
+    "sourceMap": false
+  },
+  {
+    "outputFileName" : "wwwroot/lib/bootstrap/css/bootstrap.min.css",
+    "inputFiles" : [
+      "node_modules/bootstrap/dist/css/bootstrap.min.css"
+    ],
+    // Optionally specify minification options
+    "minify": {
+      "enabled": false,
+      "renameLocals": false
+    },
+    // Optionally generate .map file
+    "sourceMap": false
+  },
+  {
+    "outputFileName" : "wwwroot/lib/bootstrap/css/bootstrap.min.css.map",
+    "inputFiles" : [
+      "node_modules/bootstrap/dist/css/bootstrap.min.css.map"
+    ],
+    // Optionally specify minification options
+    "minify": {
+      "enabled": false,
+      "renameLocals": false
+    },
+    // Optionally generate .map file
+    "sourceMap": false
+  },
+  {
+    "outputFileName" : "wwwroot/lib/bootstrap/js/bootstrap.bundle.min.js",
+    "inputFiles" : [
+      "node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"
+    ],
+    // Optionally specify minification options
+    "minify": {
+      "enabled": false,
+      "renameLocals": false
+    },
+    // Optionally generate .map file
+    "sourceMap": false
+  },
+  {
+    "outputFileName" : "wwwroot/lib/bootstrap/js/bootstrap.bundle.min.js.map",
+    "inputFiles" : [
+      "node_modules/bootstrap/dist/js/bootstrap.bundle.min.js.map"
+    ],
+    // Optionally specify minification options
+    "minify": {
+      "enabled": false,
+      "renameLocals": false
+    },
+    // Optionally generate .map file
+    "sourceMap": false
+  },
+  {
+    "outputFileName" : "wwwroot/lib/bootstrap/js/bootstrap.min.js",
+    "inputFiles" : [
+      "node_modules/bootstrap/dist/js/bootstrap.min.js"
+    ],
+    // Optionally specify minification options
+    "minify": {
+      "enabled": false,
+      "renameLocals": false
+    },
+    // Optionally generate .map file
+    "sourceMap": false
+  },
+  {
+    "outputFileName" : "wwwroot/lib/chart.js/Chart.bundle.min.js",
+    "inputFiles" : [
+      "node_modules/chart.js/dist/Chart.bundle.min.js"
+    ],
+    // Optionally specify minification options
+    "minify": {
+      "enabled": false,
+      "renameLocals": false
+    },
+    // Optionally generate .map file
+    "sourceMap": false
+  },
+  {
+    "outputFileName" : "wwwroot/lib/datatables/jquery.dataTables.js",
+    "inputFiles" : [
+      "node_modules/datatables.net/js/jquery.dataTables.js"
+    ],
+    // Optionally specify minification options
+    "minify": {
+      "enabled": false,
+      "renameLocals": false
+    },
+    // Optionally generate .map file
+    "sourceMap": false
+  },
+  {
+    "outputFileName" : "wwwroot/lib/datatables/dataTables.bootstrap4.js",
+    "inputFiles" : [
+      "node_modules/datatables.net-bs4/js/dataTables.bootstrap4.js"
+    ],
+    // Optionally specify minification options
+    "minify": {
+      "enabled": false,
+      "renameLocals": false
+    },
+    // Optionally generate .map file
+    "sourceMap": false
+  },
+  {
+    "outputFileName" : "wwwroot/lib/datatables/dataTables.bootstrap4.css",
+    "inputFiles" : [
+      "node_modules/datatables.net-bs4/css/dataTables.bootstrap4.css"
+    ],
+    // Optionally specify minification options
+    "minify": {
+      "enabled": false,
+      "renameLocals": false
+    },
+    // Optionally generate .map file
+    "sourceMap": false
+  },
+  {
+    "outputFileName" : "wwwroot/lib/jquery/jquery.min.js",
+    "inputFiles" : [
+      "node_modules/jquery/dist/jquery.min.js"
+    ],
+    // Optionally specify minification options
+    "minify": {
+      "enabled": false,
+      "renameLocals": false
+    },
+    // Optionally generate .map file
+    "sourceMap": false
+  },
+  {
+    "outputFileName" : "wwwroot/lib/jquery/jquery.min.map",
+    "inputFiles" : [
+      "node_modules/jquery/dist/jquery.min.map"
+    ],
+    // Optionally specify minification options
+    "minify": {
+      "enabled": false,
+      "renameLocals": false
+    },
+    // Optionally generate .map file
+    "sourceMap": false
+  },
+  {
+    "outputFileName" : "wwwroot/lib/jquery/jquery.slim.min.js",
+    "inputFiles" : [
+      "node_modules/jquery/dist/jquery.slim.min.map"
+    ],
+    // Optionally specify minification options
+    "minify": {
+      "enabled": false,
+      "renameLocals": false
+    },
+    // Optionally generate .map file
+    "sourceMap": false
+  },
+  {
+    "outputFileName" : "wwwroot/lib/jquery.easing/jquery.easing.min.js",
+    "inputFiles" : [
+      "node_modules/jquery.easing/jquery.easing.min.js"
+    ],
+    // Optionally specify minification options
+    "minify": {
+      "enabled": false,
+      "renameLocals": false
+    },
+    // Optionally generate .map file
+    "sourceMap": false
+  },
+  {
+    "outputFileName" : "wwwroot/lib/jquery.easing/jquery.easing.compatibility.js",
+    "inputFiles" : [
+      "node_modules/jquery.easing/jquery.easing.compatibility.js"
+    ],
+    // Optionally specify minification options
+    "minify": {
+      "enabled": false,
+      "renameLocals": false
+    },
+    // Optionally generate .map file
+    "sourceMap": false
+  },
+
+  {
+    "outputFileName" : "wwwroot/lib/chart.js/Chart.min.js",
+    "inputFiles" : [
+      "node_modules/chart.js/dist/Chart.min.js"
+    ],
+    // Optionally specify minification options
+    "minify": {
+      "enabled": false,
+      "renameLocals": false
+    },
+    // Optionally generate .map file
+    "sourceMap": false
+  },
+  {
+    "outputFileName": "wwwroot/js/site.min.js",
+    "inputFiles": [
+      "wwwroot/js/site.js"
+    ],
+    // Optionally specify minification options
+    "minify": {
+      "enabled": true,
+      "renameLocals": true
+    },
+    // Optionally generate .map file
+    "sourceMap": false
+  }
+]

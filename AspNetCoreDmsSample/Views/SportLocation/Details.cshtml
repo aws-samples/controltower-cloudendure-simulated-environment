@@ -1,0 +1,72 @@
+@model DMSSample.Models.SportLocation
+
+@{
+    Layout = "~/Views/Shared/_FormLayout.cshtml";
+    ViewData["Title"] = "Details";
+}
+<div class="card card-register mx-auto mt-5">
+    <div class="card-header">Sport Location Details</div>
+    <div class="card-body">
+        <div class="form-row">
+            <div class="col-md-12">
+                <dl class="dl-horizontal">
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Name)
+                    </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.Name)
+                    </dd>
+                </dl>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="col-md-12">
+                <dl class="dl-horizontal">
+                    <dt>
+                        @Html.DisplayNameFor(model => model.City)
+                    </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.City)
+                    </dd>
+                </dl>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="col-md-4">
+                <dl class="dl-horizontal">
+                    <dt>
+                        @Html.DisplayNameFor(model => model.SeatingCapacity)
+                    </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.SeatingCapacity)
+                    </dd>
+                </dl>
+            </div>
+            <div class="col-md-4">
+                <dl class="dl-horizontal">
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Levels)
+                    </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.Levels)
+                    </dd>
+                </dl>
+            </div>
+            <div class="col-md-4">
+                <dl class="dl-horizontal">
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Sections)
+                    </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.Sections)
+                    </dd>
+                </dl>
+            </div>
+        </div>
+    </div>
+    <div class="text-center">
+        <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-info">Edit</a>
+        <a asp-action="Index" class="btn btn-secondary">Back To List</a>
+    </div>
+    <p></p>
+</div>

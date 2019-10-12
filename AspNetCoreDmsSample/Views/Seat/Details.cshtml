@@ -1,0 +1,84 @@
+@model DMSSample.Models.Seat
+
+@{
+    Layout = "~/Views/Shared/_FormLayout.cshtml";
+    ViewData["Title"] = "Details";
+}
+<div class="card card-register mx-auto mt-5">
+    <div class="card-header">Seat Details</div>
+    <div class="card-body">
+        <div class="form-row">
+            <div class="col-md-12">
+                <dl class="dl-horizontal">
+                    <dt>
+                        @Html.DisplayNameFor(model => model.SportLocation)
+                    </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.SportLocation.Name)
+                    </dd>
+                </dl>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="col-md-6">
+                <dl class="dl-horizontal">
+                    <dt>
+                        @Html.DisplayNameFor(model => model.SeatLevel)
+                    </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.SeatLevel)
+                    </dd>
+                </dl>
+            </div>
+            <div class="col-md-6">
+                <dl class="dl-horizontal">
+                    <dt>
+                        @Html.DisplayNameFor(model => model.SeatSection)
+                    </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.SeatSection)
+                    </dd>
+                </dl>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="col-md-6">
+                <dl class="dl-horizontal">
+                    <dt>
+                        @Html.DisplayNameFor(model => model.SeatRow)
+                    </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.SeatRow)
+                    </dd>
+                </dl>
+            </div>
+            <div class="col-md-6">
+                <dl class="dl-horizontal">
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Seat1)
+                    </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.Seat1)
+                    </dd>
+                </dl>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="col-md-12">
+                <dl class="dl-horizontal">
+                    <dt>
+                        @Html.DisplayNameFor(model => model.SeatType)
+                    </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.SeatType)
+                    </dd>
+                </dl>
+            </div>
+        </div>
+    </div>
+    <div class="text-center">
+        <a href="@Url.Action("Edit", "Seat", new { SportLocationId = Model.SportLocationId, SeatLevel = Model.SeatLevel, SeatSection = Model.SeatSection, SeatRow = Model.SeatRow, Seat1 = Model.Seat1 })" class="btn btn-info">Edit</a>
+        <a asp-action="Index" class="btn btn-secondary">Back To List</a>
+    </div>
+    <p></p>
+</div>

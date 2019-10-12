@@ -1,0 +1,58 @@
+@model PaginatedList<DMSSample.Models.Person>
+
+@{
+    Layout = "~/Views/Shared/_SecondaryPopupLayout.cshtml";
+}
+
+<input type="hidden" id="sortOrderPopup"/>
+<div id="popupSelect" class="card card-60" title="Select a Person">
+    <div class="table-responsive pre-scrollable" style="height: 400px">
+        <table class="table table-table-striped table-hover" id="dataTablePopup" width="100%" cellspacing="0">
+            <thead>
+                <tr class="position-relative sticky-top">
+                    <th>Sel</th>
+                    <th>
+                        <a href="#" action="/Person/SearchList" sort-order="full_name" sort-direction="">Full Name</a>
+                    </th>
+                    
+                    <th>
+                        <a href="#" action="/Person/SearchList" sort-order="last_name" sort-direction="">Last Name</a>
+                    </th>
+
+                    <th>
+                        <a href="#" action="/Person/SearchList" sort-order="first_name" sort-direction="">First Name</a>
+                    </th>
+                </tr>
+            </thead>
+            <tbody id="tableContentsPopup" action-data="/Person/SearchList">
+                <tr>
+                    <td colspan="4" class="text-center">
+                        <i class="fa fa-refresh fa-spin" style="font-size:24px"></i>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <hr />
+    <div class="text-right">
+        <a href="#" id="btnCancelPopup" class="btn btn-secondary">Cancel</a>
+        <a href="#" id="btnSelectPopup" class="btn btn-primary">Select</a>
+    </div>
+    <script src="~/js/site.list.popup.js" asp-append-version="true"></script>
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $("#btnSelectPopup").on("click", function(){
+                if(selected != null){
+                    $("#"+returnDescriptionField).attr("value", $(selected).attr("item-description"));
+                    $("#"+returnCodeField).attr("value", $(selected).attr("item-id"));
+                     $("#popupSelect").dialog("close");
+                }else{
+                    alert("Select an Item!");
+                }
+            });
+            $("#btnCancelPopup").on("click", function(){
+                 $("#popupSelect").dialog("close");
+            });
+        })
+    </script>
+</div>

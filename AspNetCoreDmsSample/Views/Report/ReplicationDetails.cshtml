@@ -1,0 +1,161 @@
+@model DMSSample.Models.DisplayTableStatistics
+
+@{
+    Layout = "~/Views/Shared/_FormLayout.cshtml";
+    ViewData["Title"] = "Details";
+}
+<div class="card card-register mx-auto mt-5">
+    <div class="card-header text-white @Model.StatusColor">
+        <i class="fa fa-inverse @Model.DisplayIcon"></i>
+        Table: @Model.Statistics.TableName Statistics
+    </div>
+    <div class="card-body">
+        <div class="form-row">
+            <div class="col-md-3">
+                <dl class="dl-horizontal">
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Statistics.Ddls)
+                    </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.Statistics.Ddls)
+                    </dd>
+                </dl>
+            </div>
+            <div class="col-md-3">
+                <dl class="dl-horizontal">
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Statistics.Deletes)
+                    </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.Statistics.Deletes)
+                    </dd>
+                </dl>
+            </div>
+            <div class="col-md-3">
+                <dl class="dl-horizontal">
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Statistics.Inserts)
+                    </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.Statistics.Inserts)
+                    </dd>
+                </dl>
+            </div>
+            <div class="col-md-3">
+                <dl class="dl-horizontal">
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Statistics.Updates)
+                    </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.Statistics.Updates)
+                    </dd>
+                </dl>
+            </div>
+        </div>
+         <div class="form-row">
+
+            <div class="col-md-6">
+                <dl class="dl-horizontal">
+                    <dt>
+                    @Html.DisplayNameFor(model => model.Statistics.FullLoadCondtnlChkFailedRows)
+                    </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.Statistics.FullLoadCondtnlChkFailedRows)
+                    </dd>
+                </dl>
+            </div>
+            <div class="col-md-6">
+                <dl class="dl-horizontal">
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Statistics.FullLoadErrorRows)
+                    </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.Statistics.FullLoadErrorRows)
+                    </dd>
+                </dl>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="col-md-6">
+                <dl class="dl-horizontal">
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Statistics.FullLoadRows)
+                    </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.Statistics.FullLoadRows)
+                    </dd>
+                </dl>
+            </div>
+            <div class="col-md-6">
+                <dl class="dl-horizontal">
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Statistics.TableState)
+                    </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.Statistics.TableState)
+                    </dd>
+                </dl>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="col-md-6">
+                <dl class="dl-horizontal">
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Statistics.ValidationFailedRecords)
+                    </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.Statistics.ValidationFailedRecords)
+                    </dd>
+                </dl>
+            </div>
+            <div class="col-md-6">
+                <dl class="dl-horizontal">
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Statistics.ValidationPendingRecords)
+                    </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.Statistics.ValidationPendingRecords)
+                    </dd>
+                </dl>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="col-md-6">
+                <dl class="dl-horizontal">
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Statistics.ValidationState)
+                    </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.Statistics.ValidationState)
+                    </dd>
+                </dl>
+            </div>
+            <div class="col-md-6">
+                <dl class="dl-horizontal">
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Statistics.ValidationSuspendedRecords)
+                    </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.Statistics.ValidationSuspendedRecords)
+                    </dd>
+                </dl>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="col-md-6">
+                <dl class="dl-horizontal">
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Statistics.LastUpdateTime)
+                    </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.Statistics.LastUpdateTime)
+                    </dd>
+                </dl>
+            </div>
+        </div>
+        
+    <div class="text-center">
+        <a asp-action="ReplicationStatistics" class="btn btn-secondary">Back To Dashboard</a>
+    </div>
+    <p></p>
+</div>

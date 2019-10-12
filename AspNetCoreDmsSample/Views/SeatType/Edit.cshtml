@@ -1,0 +1,42 @@
+@model DMSSample.Models.SeatType
+
+@{
+    Layout = "~/Views/Shared/_FormLayout.cshtml";
+    ViewData["Title"] = "Edit";
+}
+
+<div class="card card-register mx-auto mt-5">
+    <div class="card-header">Edit a Seat Type</div>
+    <div class="card-body">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Name" />
+            <div class="form-group">
+                <div class="form-row">
+                    <div class="col-md-12">
+                        <label asp-for="Description" class="control-label"></label>
+                        <input asp-for="Description" class="form-control" />
+                        <span asp-validation-for="Description" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="form-row">
+                    <div class="col-md-12">
+                        <label asp-for="RelativeQuality" class="control-label"></label>
+                        <input asp-for="RelativeQuality" class="form-control" />
+                        <span asp-validation-for="RelativeQuality" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="text-center">
+                <input type="submit" value="Save" class="btn btn-primary" />
+                <a asp-action="Index" class="btn btn-secondary">Back To List</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

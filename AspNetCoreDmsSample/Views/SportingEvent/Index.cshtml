@@ -1,0 +1,53 @@
+@model PaginatedList<DMSSample.Models.SportingEvent>
+
+@{
+    ViewData["Title"] = "Sporting Events";
+}
+<input type="hidden" id="searchString" value="@ViewData["SearchString"]"/>
+<input type="hidden" id="sortOrder"/>
+<div class="card mb-3">
+    <div class="card-header">
+        <i class="fa fa-table"></i> Sporting Events List
+        | <a asp-action="Create" class="btn btn-outline-info rounded-circle la-button-sm" title="Create New"><i class="fa fa-plus la-icon-add"></i></a>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th>
+                            <a href="#" action="/SportingEvent/SearchList" sort-order="start_date" sort-direction="">Start Date</a>
+                        </th>
+                        <th>
+                            <a href="#" action="/SportingEvent/SearchList" sort-order="start_time" sort-direction="">Time</a>
+                        </th>
+                        <th>
+                            <a href="#" action="/SportingEvent/SearchList" sort-order="sold_out" sort-direction="">Sold Out</a>
+                        </th>
+                        <th>
+                            <a href="#" action="/SportingEvent/SearchList" sort-order="home_team" sort-direction="">Home</a>
+                        </th>
+                        <th>
+                            <a href="#" action="/SportingEvent/SearchList" sort-order="away_team" sort-direction="">Away</a>
+                        </th>
+                        <th>
+                            <a href="#" action="/SportingEvent/SearchList" sort-order="location" sort-direction="">Location</a>
+                        </th>
+                        <th>
+                            <a href="#" action="/SportingEvent/SearchList" sort-order="sport_type" sort-direction="">Sport</a>
+                        </th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody id="tableContents" action-data="/SportingEvent/SearchList">
+                    <tr>
+                        <td colspan="8" class="text-center">
+                            <i class="fa fa-refresh fa-spin" style="font-size:24px"></i>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <script src="~/js/site.list.js" asp-append-version="true"></script>
+</div>

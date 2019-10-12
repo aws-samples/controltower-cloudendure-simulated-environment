@@ -1,0 +1,87 @@
+@model PaginatedList<DMSSample.Models.SportingEventTicket>
+
+@if (Model.Count() > 0) {
+    @foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.TicketPrice)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.S.SeatSection)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SportingEvent.SportTypeName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Ticketholder.FullName)
+            </td>
+            <td class="d-sm-table-cell">
+                <a id="btnEdit" action="/SportingEventTicket/Edit/@item.Id" class="btn btn-outline-primary rounded-circle la-button-sm btnEdit"><i class="fa fa-pencil btn-outline-primary la-icon-edit" title="Edit"></i></a>
+                <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-outline-success rounded-circle la-button-sm"><i class="fa fa-ellipsis-h la-icon-details" title="Details"></i></a>
+                <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-outline-danger rounded-circle la-button-sm"><i class="fa fa-trash la-icon-delete" title="Delete"></i></a>
+            </td>
+        </tr>
+    }
+} else {
+    <tr>
+        <td colspan="5" class="text-center">
+            <div class="badge-primary rounded">
+                <i class="fa fa-info-circle"></i>
+                The search returned no records.
+            </div>
+        </td>
+    </tr>
+}
+<script>
+    $(document).ready(function (){
+        $(".btnEdit").on("click", function(){
+            console.log("Action: " + $(this).attr("action"));
+            $.ajax({
+                type: "GET",
+                url: $(this).attr("action"),
+                dataType: "html",
+                success: function(response){
+                    $("#popupContainer").html(response);
+                    $("#popupEdit").dialog({
+                        autoOpen: true,
+                        resizable: false,
+                        modal: true,
+                        width: "60rem",
+                        close: function(event, ui){
+                            $("#popupEdit").remove();
+                        }
+                    });
+                }
+            });
+        });
+    });
+</script>
+@if (Model.HasNextPage) {
+    <tr id="lineMore">
+        <td colspan="5" class="text-center" id="pnlMore">
+            <button id="btnMore" class="btn form-control btn-primary">
+                <i class="fa fa-download"></i> Load More
+                <input type="hidden" id="pageIndex" value="@Model.PageIndex"/>
+            </button>
+        </td>
+    </tr>
+    <script>
+        $(document).ready(function (){
+            $("#btnMore").on("click", function(){
+                var newPage = parseInt($("#pageIndex").val(), 10) + 1;
+                $("#pnlmore").html("<i class=\"fa fa-refresh fa-spin\" style=\"font-size:24px\"></i>");
+                $(this).find("i").addClass("fa-refresh fa-spin");
+                $.ajax({
+                    type: "GET",
+                    url: $('#tableContents').attr("action-data"),
+                    data: { sortOrder: $("#sortOrder").val(), searchString: $("#searchString").val(), page: newPage, sportingEventId: $("#SportingEventIdFilter").val() },
+                    dataType: "html", 
+                    success: function(response){
+                        $('#lineMore').remove();
+                        $('#tableContents').append(response);
+                    }
+                });
+            });
+        });
+    </script>
+}

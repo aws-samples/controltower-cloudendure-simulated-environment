@@ -1,0 +1,59 @@
+ @model PaginatedList<DMSSample.Models.Person>
+
+ @if (Model.Count() > 0) {
+    @foreach (var item in Model) {
+        <tr item-id="@item.Id" item-description="@item.FullName">
+            <td>
+                <a href="#" id="selectButton" class="btn btn-outline-success rounded-circle la-button-sm"><i class="fa" style="position: relative; width:16pt; height:16pt; top:-2pt; left:-0.5pt"></i></a>
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FullName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LastName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FirstName)
+            </td>
+        </tr>
+    }
+} else {
+    <tr>
+        <td colspan="4" class="text-center">
+            <div class="badge-primary rounded">
+                <i class="fa fa-info-circle"></i>
+                The search returned no records.
+            </div>
+        </td>
+    </tr>
+}
+
+@if (Model.HasNextPage) {
+    <tr id="lineMorePopup">
+        <td colspan="4" class="text-center" id="pnlMorePopup">
+            <button id="btnMorePopup" class="btn form-control btn-primary">
+                <i class="fa fa-download"></i> Load More
+                <input type="hidden" id="pageIndexPopup" value="@Model.PageIndex"/>
+            </button>
+        </td>
+    </tr>
+
+    <script src="~/js/site.list.partial.popup.js" asp-append-version="true"></script>
+}
+
+<script type="text/javascript">
+    var selected = null;
+    $(document).ready(function(){
+        $("#dataTablePopup > tbody").find("tr").on("click", function(){
+            if(selected != null){
+                $(selected).find("a").html("<i class=\"fa\" style=\"position: relative; width:16pt; height:16pt; top:-2pt; left:-0.5pt\"></i>")
+                selected = null;
+            }
+            if($(this).attr("id") != "lineMorePopup"){
+                var link = $(this).find("a");
+                link.html("<i class=\"fa fa-arrow-right\" style=\"position: relative; width:16pt; height:16pt; top:-2pt; left:-0.5pt\"></i>")
+                selected = $(this);
+            }
+        })
+    })
+</script>
