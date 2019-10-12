@@ -29,8 +29,8 @@ There are five directories below this main directory. they are:
 * **cloudformation:** cloudformation template to launch the simulated on-premises environment
 * **sqlserverdb:** scripts for creating the SQL Server database - this script uses the repo <a href="https://github.com/aws-samples/aws-database-migration-samples/tree/master/sqlserver/sampledb/v1"><b>aws-database-migration-samples</b></a>, but to expedite the process doesn't create the event's tickets and It enables by default Sql Server Authentication mode.
 
-Neither the sample application or the dms_sample database are meant as an example of how one might ideally build a ssystem,
-it's designed to allow the user to get a feel for how to migrate Linux and Windows virtual machines using CloudEndure Live Migration Agent.
+Neither the sample application or the dms_sample database are meant as an example of how one might ideally build an application,
+it's designed to allow the user to get a feel for how to migrate Linux and Windows virtual machines using CloudEndure Live Migration Agents and getting advantage of the governed AWS Accounts created by AWS Control Tower.
 
 ## License
 
