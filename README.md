@@ -14,10 +14,10 @@ The installation process creates the dotnet core application and a database, loa
 * An Amazon EC2 Ubuntu instance (t2.micro) to host the dotnet core application
 * An Amazon EC2 Windows instance (t3.xlarge) to host the SQL Server instance
 * The SQL Server database needs 50GB of Amazon EBS disk size
-* We use the default VPC template that launches a 2 AZ model with NAT Gateway for each AZ.
+* We use the default VPC template that launches a 2 AZ model with NAT Gateways for each AZ.
 
 ##Installation Instructions
-* Download the cloudformation template
+* Download the <a href="https://github.com/aws-samples/controltower-cloudendure-simulated-environment/tree/master/cloudformation">cloudformation template</a>.
 * Fo to AWS CloudFormation console and launch a new stack 
 ...it takes 5 minutes to finish the installation and 10 minutes to finish database creation
 
