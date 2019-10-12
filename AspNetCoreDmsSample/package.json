@@ -14,10 +14,10 @@
         "app"
     ],
     "dependencies": {
-        "bootstrap": "4.0.0",
+        "bootstrap": "4.3.1",
         "chart.js": "2.7.1",
         "datatables.net-bs4": "1.10.16",
-        "jquery": "3.3.1",
+        "jquery": "3.4.0",
         "jquery.easing": "^1.4.1"
     }
 }
