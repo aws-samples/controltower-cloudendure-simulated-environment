@@ -161,7 +161,7 @@
                 "C:\\'Program Files'\\Git\\bin\\git config core.sparseCheckout true",
                 "Set-Content .git\\info\\sparse-checkout \"sqlserverdb\" -Encoding Ascii",
                 "C:\\'Program Files'\\Git\\bin\\git checkout master",
-                "sqlcmd -i c:\\windows\\temp\\controltower-cloudendure-simulated-environment\\sqlserverdb\\install-onprem-light.sql",
+                "sqlcmd -i c:\\windows\\temp\\controltower-cloudendure-simulated-environment\\sqlserverdb\\install-onprem.sql",
                 "Rename-Computer -ComputerName $env:computername -NewName dmssampledatabase -Restart -Force",
                 "</powershell>"
               ]
