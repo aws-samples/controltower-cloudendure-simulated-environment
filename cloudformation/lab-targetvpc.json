@@ -24,7 +24,7 @@
       "Properties": {
         "GroupDescription": "Target Security Group Web",
         "VpcId": {
-          "Ref": "VPCStack"
+          "Fn::GetAtt" : [ "VPCStack", "Outputs.VPCID" ]
         }
       }
     },
@@ -33,7 +33,7 @@
       "Properties": {
         "GroupDescription": "Target Security Group - source DB",
         "VpcId": {
-          "Ref": "VPCStack"
+          "Fn::GetAtt" : [ "VPCStack", "Outputs.VPCID" ]
         }
       }
     },
