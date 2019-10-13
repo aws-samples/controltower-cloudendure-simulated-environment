@@ -1,0 +1,69 @@
+{
+  "AWSTemplateFormatVersion": "2010-09-09",
+  "Parameters":{ 
+    "MyClientIP" : {
+      "Description" : "The IP address that can be used to access your application web page. It must be a valid IP CIDR range of the form x.x.x.x/x. Suggest to enable access to your IP address only X.X.X.X/32. You can get your address using checkip.amazonaws.com.",
+      "Type": "String",
+      "MinLength": "9",
+      "MaxLength": "18",
+      "AllowedPattern": "((\\d{1,3})\\.){3}\\d{1,3}/\\d{1,2}",
+      "ConstraintDescription": "It must be a valid IP CIDR range of the form X.X.X.X/X. Suggest to enable access to your IP address only X.X.X.X/32."
+    }
+  },
+  "Resources" : {
+    "VPCStack" : {
+     "Type" : "AWS::CloudFormation::Stack",
+     "Properties" : {
+        "TemplateURL" : "https://aws-quickstart.s3.amazonaws.com/quickstart-aws-vpc/templates/aws-vpc.template",
+        "Parameters": {
+          "AvailabilityZones" : { "Fn::Join" : [ ",", { "Fn::GetAZs" : { "Ref" : "AWS::Region" } } ] }
+        }
+    }},
+    "sgweb": {
+      "Type": "AWS::EC2::SecurityGroup",
+      "Properties": {
+        "GroupDescription": "Target Security Group Web",
+        "VpcId": {
+          "Ref": "VPCStack"
+        }
+      }
+    },
+    "sgdatabasesource": {
+      "Type": "AWS::EC2::SecurityGroup",
+      "Properties": {
+        "GroupDescription": "Target Security Group - source DB",
+        "VpcId": {
+          "Ref": "VPCStack"
+        }
+      }
+    },
+    "WebIngress1": {
+      "Type": "AWS::EC2::SecurityGroupIngress",
+      "Properties": {
+        "GroupId": {
+          "Ref": "sgweb"
+        },
+        "IpProtocol": "tcp",
+        "FromPort": "80",
+        "ToPort": "80",
+        "CidrIp": {"Ref": "MyClientIP"}
+      }
+    },
+    "sgdatabasesourceIngressWeb": {
+      "Type": "AWS::EC2::SecurityGroupIngress",
+      "Properties": {
+        "GroupId": {
+          "Ref": "sgdatabasesource"
+        },
+        "IpProtocol": "tcp",
+        "FromPort": "1433",
+        "ToPort": "1433",
+        "SourceSecurityGroupId": {
+          "Ref": "sgweb"
+        }
+      }
+    }
+  },
+  "Outputs" : {
+  }
+}
