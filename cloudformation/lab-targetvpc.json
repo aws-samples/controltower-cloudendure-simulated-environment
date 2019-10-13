@@ -28,7 +28,7 @@
         }
       }
     },
-    "sgdatabasesource": {
+    "sgdatabase": {
       "Type": "AWS::EC2::SecurityGroup",
       "Properties": {
         "GroupDescription": "Target Security Group - source DB",
