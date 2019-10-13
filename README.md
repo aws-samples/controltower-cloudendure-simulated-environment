@@ -24,9 +24,9 @@ The installation process creates the dotnet core application and a database, loa
 ...it takes 5 minutes to finish the installation and 10 minutes to finish database creation
 
 ## Repo Structure
-There are five directories below this main directory. they are:
+There are thre directories below this main directory. they are:
 * **AspNetCoreDmsSample:** the sample dotnet core application to help you to interact with the SQL Server database.
-* **cloudformation:** cloudformation template to launch the simulated on-premises environment
+* **cloudformation:** a cloudformation template "lab-onpremises-appdb.json" to launch the simulated on-premises environment and the target environment lab-targetvpc.json. Both templates uses the <a href="https://aws.amazon.com/quickstart/architecture/vpc/">AWS Quick Start Modular and Scalable VPC Architecture</a>. These templates create a 2-AZ VPC with public and private subnets layers and one NatGateway in each VPC.
 * **sqlserverdb:** scripts for creating the SQL Server database - this script uses the repo <a href="https://github.com/aws-samples/aws-database-migration-samples/tree/master/sqlserver/sampledb/v1"><b>aws-database-migration-samples</b></a>, but to expedite the process doesn't create the event's tickets and It enables by default Sql Server Authentication mode.
 
 Neither the sample application or the dms_sample database are meant as an example of how one might ideally build an application,
