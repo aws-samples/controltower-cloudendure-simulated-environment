@@ -15,7 +15,7 @@ namespace DMSSample.Controllers
     {
         public SportingEventTicketController(IDbContextService dbContextService) : base(dbContextService){}
 
-        public async Task<IActionResult> Index(string searchString, string sportingEventDateFilter, int? sportingEventIdFilter){
+        public IActionResult Index(string searchString, string sportingEventDateFilter, int? sportingEventIdFilter){
             SportingEventTicketFilter model = new SportingEventTicketFilter();
             if(!string.IsNullOrEmpty(sportingEventDateFilter)){
                 model.SportingEventDateFilter = DateTime.Parse(sportingEventDateFilter);
@@ -215,7 +215,7 @@ namespace DMSSample.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(long id, [Bind("Id,SportingEventId,SportLocationId,SeatLevel,SeatSection,SeatRow,Seat,TicketholderId,TicketPrice")] SportingEventTicket sportingEventTicket)
+        public IActionResult Edit(long id, [Bind("Id,SportingEventId,SportLocationId,SeatLevel,SeatSection,SeatRow,Seat,TicketholderId,TicketPrice")] SportingEventTicket sportingEventTicket)
         {
             if (id != sportingEventTicket.Id)
             {

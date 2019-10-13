@@ -25,42 +25,42 @@ namespace DMSSample.Controllers
             _appSettings = appSettings;
             _migrationService = migrationService;
         }
-        public async Task<IActionResult> SetSQLServer(LoginModel model){
+        // public async Task<IActionResult> SetSQLServer(LoginModel model){
 
-         if(model == null){
-                model = new LoginModel();
-            }
-            model.PrimaryServerType = DatabaseConstants.SQL_SERVER;
+        //  if(model == null){
+        //         model = new LoginModel();
+        //     }
+        //     model.PrimaryServerType = DatabaseConstants.SQL_SERVER;
 
-            ViewData["PrimaryServerTypeList"] = buildServerTypeSelectList(DatabaseConstants.SQL_SERVER);
+        //     ViewData["PrimaryServerTypeList"] = buildServerTypeSelectList(DatabaseConstants.SQL_SERVER);
 
-           model.ReplicaServerType = DatabaseConstants.MY_SQL;
+        //    model.ReplicaServerType = DatabaseConstants.MY_SQL;
 
-            ViewData["ReplicaServerTypeList"] = buildServerTypeSelectList(DatabaseConstants.MY_SQL);
-
-
-            return View("Index", model);
-        }
-
-        public async Task<IActionResult> SetMySQL(LoginModel model){
-
-            if(model == null){
-                model = new LoginModel();
-            }
-            model.PrimaryServerType = DatabaseConstants.MY_SQL;
-
-            ViewData["PrimaryServerTypeList"] = buildServerTypeSelectList(DatabaseConstants.MY_SQL);
-
-           model.ReplicaServerType = DatabaseConstants.SQL_SERVER;
+        //     ViewData["ReplicaServerTypeList"] = buildServerTypeSelectList(DatabaseConstants.MY_SQL);
 
 
-            ViewData["ReplicaServerTypeList"] = buildServerTypeSelectList(DatabaseConstants.SQL_SERVER);
+        //     return View("Index", model);
+        // }
 
-            return View("Index", model);
-        }
+        // public async Task<IActionResult> SetMySQL(LoginModel model){
+
+        //     if(model == null){
+        //         model = new LoginModel();
+        //     }
+        //     model.PrimaryServerType = DatabaseConstants.MY_SQL;
+
+        //     ViewData["PrimaryServerTypeList"] = buildServerTypeSelectList(DatabaseConstants.MY_SQL);
+
+        //    model.ReplicaServerType = DatabaseConstants.SQL_SERVER;
+
+
+        //     ViewData["ReplicaServerTypeList"] = buildServerTypeSelectList(DatabaseConstants.SQL_SERVER);
+
+        //     return View("Index", model);
+        // }
 
         //public IActionResult Switch([Bind("PrimaryServerType,PrimaryServerName,PrimaryDatabaseName,PrimaryUserName,PrimaryPassword,ReplicaServerType,ReplicaServerName,ReplicaDatabaseName,ReplicaUserName,ReplicaPassword")] LoginModel model){
-        public async Task<IActionResult> Switch(LoginModel model){
+        public IActionResult Switch(LoginModel model){
             ModelState.Clear();
 
             string primaryPassword = model.PrimaryPassword;
@@ -148,10 +148,10 @@ namespace DMSSample.Controllers
                 }
             }
 
-            return Index(model).Result;
+            return Index(model);
         }
 
-        public async Task<IActionResult> Index(LoginModel model)
+        public IActionResult Index(LoginModel model)
         {       
 
             LoginModel returnModel = new LoginModel();

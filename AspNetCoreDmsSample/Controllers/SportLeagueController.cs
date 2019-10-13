@@ -14,7 +14,7 @@ namespace DMSSample.Controllers
     {
         public SportLeagueController(IDbContextService dbContextService) : base(dbContextService){}
 
-        public async Task<IActionResult> Index(string searchString){
+        public IActionResult Index(string searchString){
             ViewData["SearchString"] = searchString;
             return View();
         }

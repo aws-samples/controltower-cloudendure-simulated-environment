@@ -251,7 +251,7 @@ namespace DMSSample.Controllers
 
             return PartialView("ReplicaCompareRecordsCard", recordCounts);
         }
-        public async Task<IActionResult> ReplicaCompareRecords()
+        public IActionResult ReplicaCompareRecords()
         {
             return View();
         }

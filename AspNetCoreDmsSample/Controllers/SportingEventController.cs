@@ -14,13 +14,13 @@ namespace DMSSample.Controllers
     {
         public SportingEventController(IDbContextService dbContextService) : base(dbContextService){}
 
-        public async Task<IActionResult> Index(string searchString){
+        public IActionResult Index(string searchString){
             ViewData["SearchString"] = searchString;
             return View();
         }
 
         // GET: SportingEvent
-        public async Task<IActionResult> SearchList(string sortOrder, string searchString, int? page)
+        public IActionResult SearchList(string sortOrder, string searchString, int? page)
         {
             var sportingEvent = from sportingEvents in _context.SportingEvent.Include(s => s.AwayTeam).Include(s => s.HomeTeam).Include(s => s.Location).Include(s => s.SportTypeNameNavigation) select sportingEvents;
 
@@ -80,7 +80,7 @@ namespace DMSSample.Controllers
             }
 
             int pageSize = 10;
-            return PartialView("SearchList", await PaginatedList<SportingEvent>.CreateAsync(sportingEvent.AsNoTracking(), page ?? 1, pageSize));
+            return PartialView("SearchList", PaginatedList<SportingEvent>.CreateAsync(sportingEvent.AsNoTracking(), page ?? 1, pageSize));
         }
 
         // GET: SportingEvent/Details/5

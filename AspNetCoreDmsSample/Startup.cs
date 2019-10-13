@@ -34,6 +34,16 @@ namespace DMSSample
                 .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
                 .AddEnvironmentVariables();
             Configuration = builder.Build();
+
+            SetEnvironment();
+        }
+
+        // THIS CODE IS FOR STUDY PURPOSES ONLY. 
+        // Check out better ways to get AWS credentials for your app in the AWS documentation.
+        private void SetEnvironment(){
+            Environment.SetEnvironmentVariable("AWS_ACCESS_KEY_ID", Configuration["AWS:AccesKeyId"]);
+            Environment.SetEnvironmentVariable("AWS_SECRET_ACCESS_KEY", Configuration["AWS:SecretAccessKey"]);
+            Environment.SetEnvironmentVariable("AWS_REGION", Configuration["AWS:Region"]); 
         }
 
         public IConfiguration Configuration { get; }
@@ -90,21 +100,16 @@ namespace DMSSample
                         var exceptionHandlerPathFeature = 
                             context.Features.Get<IExceptionHandlerPathFeature>();
 
-                        // Use exceptionHandlerPathFeature to process the exception (for example, 
-                        // logging), but do NOT expose sensitive error information directly to 
-                        // the client.
+                        // exceptionHandlerPathFeature: to process the exception/logging, but do not expose error information directly to client. THE CODE BELOW IS FOR STUDY PURPOSES ONLY.
 
-                        //if (exceptionHandlerPathFeature?.Error is FileNotFoundException)
-                        //{
-                            await context.Response.WriteAsync("<pre>\r\n");
-                            await context.Response.WriteAsync(exceptionHandlerPathFeature?.Error.Message);
-                            await context.Response.WriteAsync("</pre>\r\n");
-                            await context.Response.WriteAsync("<h1>STACK</h1><br><br>\r\n");
-                            await context.Response.WriteAsync("<pre>");
-                            await context.Response.WriteAsync(exceptionHandlerPathFeature?.Error.StackTrace);
-                            await context.Response.WriteAsync("</pre>");
-                        //}
-
+                        await context.Response.WriteAsync("<pre>\r\n");
+                        await context.Response.WriteAsync(exceptionHandlerPathFeature?.Error.Message);
+                        await context.Response.WriteAsync("</pre>\r\n");
+                        await context.Response.WriteAsync("<h1>STACK</h1><br><br>\r\n");
+                        await context.Response.WriteAsync("<pre>");
+                        await context.Response.WriteAsync(exceptionHandlerPathFeature?.Error.StackTrace);
+                        await context.Response.WriteAsync("</pre>");
+                        
                         await context.Response.WriteAsync("<br><a href=\"/\">Home</a><br>\r\n");
                         await context.Response.WriteAsync("</body></html>\r\n");
                         await context.Response.WriteAsync(new string(' ', 512)); // IE padding

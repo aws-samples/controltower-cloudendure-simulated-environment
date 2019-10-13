@@ -16,7 +16,7 @@ namespace DMSSample.Controllers
         public PersonController(IDbContextService dbContextService) : base(dbContextService){
         }
 
-        public async Task<IActionResult> Index(string searchString, bool? isPopup){
+        public IActionResult Index(string searchString, bool? isPopup){
             ViewData["SearchString"] = searchString;
             if(isPopup == null){
                 return View();
