@@ -18,16 +18,21 @@ The installation process creates the dotnet core application and a database, loa
 * We use the default VPC template that launches a 2 AZ model with NAT Gateways for each AZ.
 * IAM role that give access to AWS Systems Manager to help you installing CloudEndure agents.
 
-##Installation Instructions
-* Download the <a href="https://github.com/aws-samples/controltower-cloudendure-simulated-environment/blob/master/cloudformation/lab-onpremises-appdb.json">cloudformation template</a>.
-* Go to AWS CloudFormation console and launch a new stack using this template. Access the blog post <b>Migrating an Existing Workload to an AWS Control Tower governed Account using CloudEndure</b> to have detailed guidance about it.
+**Installation Instructions**
+* Access the blog post <b>Migrating an Existing Workload to an AWS Control Tower governed Account using CloudEndure</b> to have detailed guidance about it.
 ...it takes 5 minutes to finish the installation and 10 minutes to finish database creation
+
+**Clean up**
+* First Step: Go to CloudEndure user console and delete the project.
+* Second Step: Delete the target vpc AWS Cloudformation stack
+* Third Step: Delete the on-premises AWS Cloudformation stack
+
 
 ## Repo Structure
 There are thre directories below this main directory. they are:
 * **AspNetCoreDmsSample:** the sample dotnet core application to help you to interact with the SQL Server database.
 * **cloudformation:** a cloudformation template "lab-onpremises-appdb.json" to launch the simulated on-premises environment and the target environment lab-targetvpc.json. Both templates uses the <a href="https://aws.amazon.com/quickstart/architecture/vpc/">AWS Quick Start Modular and Scalable VPC Architecture</a>. These templates create a 2-AZ VPC with public and private subnets layers and one NatGateway in each VPC.
-* **sqlserverdb:** scripts for creating the SQL Server database - this script uses the repo <a href="https://github.com/aws-samples/aws-database-migration-samples/tree/master/sqlserver/sampledb/v1"><b>aws-database-migration-samples</b></a>, but to expedite the process doesn't create the event's tickets and It enables by default Sql Server Authentication mode.
+* **sqlserverdb:** scripts for creating the SQL Server database - this script uses the repo <a href="https://github.com/aws-samples/aws-database-migration-samples/tree/master/sqlserver/sampledb/v1"><b>aws-database-migration-samples</b></a>, but to expedite the process doesn't create the events' tickets and It enables by default Sql Server Authentication mode.
 
 Neither the sample application or the dms_sample database are meant as an example of how one might ideally build an application,
 it's designed to allow the user to get a feel for how to migrate Linux and Windows virtual machines using CloudEndure Live Migration Agents and getting advantage of the governed AWS Accounts created by AWS Control Tower.
