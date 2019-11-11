@@ -1,0 +1,271 @@
+AWSTemplateFormatVersion: 2010-09-09
+Parameters:
+  KeyName:
+    Description: Amazon EC2 Key Pair
+    Type: 'AWS::EC2::KeyPair::KeyName'
+  MyClientIP:
+    Description: >-
+      The IP address that can be used to access your application web page. It
+      must be a valid IP CIDR range of the form x.x.x.x/x. Suggest to enable
+      access to your IP address only X.X.X.X/32. You can get your address using
+      checkip.amazonaws.com.
+    Type: String
+    MinLength: '9'
+    MaxLength: '18'
+    AllowedPattern: '((\d{1,3})\.){3}\d{1,3}/\d{1,2}'
+    ConstraintDescription: >-
+      It must be a valid IP CIDR range of the form X.X.X.X/X. Suggest to enable
+      access to your IP address only X.X.X.X/32.
+Mappings:
+  # Windows AMI with SqlServer to install DMSSampleDatabase
+  SqlServerSource:
+    us-east-1:
+      ami: ami-0ef5efc96eebbe25a
+    us-east-2:
+      ami: ami-013bee73e7b64ee0b
+    us-west-2:
+      ami: ami-0a454d3892fb3ddc6
+    sa-east-1:
+      ami: ami-05309e217f8994613
+  # Linux AMI to support the application
+  ApplicationHost:
+    us-east-1:
+      ami: ami-e24b7d9d
+    us-east-2:
+      ami: ami-f4f4cf91
+    us-west-2:
+      ami: ami-702d7f08
+    sa-east-1:
+      ami: ami-c399beaf
+Resources:
+  # Creates a VPC based on AWS Quickstart best practices
+  VPCStack:
+    Type: 'AWS::CloudFormation::Stack'
+    Properties:
+      TemplateURL: >-
+        https://aws-quickstart.s3.amazonaws.com/quickstart-aws-vpc/templates/aws-vpc.template
+      Parameters:
+        AvailabilityZones: !Join 
+          - ','
+          - !GetAZs 
+            Ref: 'AWS::Region'
+  # Amazon EC2 Sample dotnet application
+  EC2ApplicationDotnet:
+    Type: 'AWS::EC2::Instance'
+    Properties:
+      DisableApiTermination: false
+      InstanceInitiatedShutdownBehavior: stop
+      ImageId: !FindInMap 
+        - ApplicationHost
+        - !Ref 'AWS::Region'
+        - ami
+      InstanceType: t2.micro
+      IamInstanceProfile: !Ref DMSInstanceProfile
+      KeyName: !Ref KeyName
+      Monitoring: false
+      UserData: !Base64 
+        'Fn::Join':
+          - |+
+
+          - - '#!/bin/bash'
+            - '# Install the files and packages from the metadata'
+            - '# install apache if not already installed'
+            - apt-get update
+            - apt-get install npm -y
+            - apt-get install apache2 -y
+            - a2enmod proxy
+            - a2enmod proxy_http
+            - a2enmod proxy_balancer
+            - a2enmod lbmethod_byrequests
+            - export HOME="/home/ubuntu"
+            - '# download application'
+            - cd /home/ubuntu/
+            - git init
+            - >-
+              git remote add -f origin
+              https://github.com/aws-samples/controltower-cloudendure-simulated-environment.git
+            - git config core.sparseCheckout true
+            - echo "AspNetCoreDmsSample/" >> .git/info/sparse-checkout
+            - git pull origin master
+            - cd /home/ubuntu/AspNetCoreDmsSample/
+            - npm install
+            - >-
+              dotnet publish /home/ubuntu/AspNetCoreDmsSample/DMSSample.csproj
+              -c Release -o /home/ubuntu/dmssample/
+            - '# override the existing site configuration'
+            - HTTPD_CONF=/etc/apache2/sites-available/000-default.conf
+            - cp /home/ubuntu/AspNetCoreDmsSample/virtualhost.conf $HTTPD_CONF
+            - '#Copy application service'
+            - >-
+              cp /home/ubuntu/AspNetCoreDmsSample/kestrel-aspnetcoreapp.service
+              /etc/systemd/system/
+            - '# use systemd to start and monitor dotnet application'
+            - systemctl enable kestrel-aspnetcoreapp.service
+            - systemctl start kestrel-aspnetcoreapp.service
+            - '# start apache'
+            - systemctl restart apache2.service
+            - hostnamectl set-hostname dotnetapplication
+      Tags:
+        - Key: Name
+          Value: Dotnet Application
+        - Key: Lab
+          Value: lab-controltower-cloudendure
+      NetworkInterfaces:
+        - DeleteOnTermination: true
+          Description: Primary network interface
+          DeviceIndex: '0'
+          SubnetId: !GetAtt 
+            - VPCStack
+            - Outputs.PublicSubnet1ID
+          GroupSet:
+            - !Ref sgweb
+          AssociatePublicIpAddress: true
+  # Amazon EC2 with DMSSample database installed
+  SqlServerSource:
+    Type: 'AWS::EC2::Instance'
+    Properties:
+      DisableApiTermination: false
+      InstanceInitiatedShutdownBehavior: stop
+      EbsOptimized: false
+      ImageId: !FindInMap 
+        - SqlServerSource
+        - !Ref 'AWS::Region'
+        - ami
+      InstanceType: t3.xlarge
+      UserData: !Base64 
+        'Fn::Join':
+          - |+
+
+          - - <powershell>
+            - '<# Install AWS Systems Manager Agent #>'
+            - $client=new-object System.Net.WebClient
+            - >-
+              $client.DownloadFile("https://s3.amazonaws.com/ec2-downloads-windows/SSMAgent/latest/windows_amd64/AmazonSSMAgentSetup.exe",
+              "c:/windows/temp/AmazonSSMAgentSetup.exe")
+            - >-
+              Start-Process c:/windows/temp/AmazonSSMAgentSetup.exe
+              -ArgumentList @("/q", "/log", "install.log") -Wait
+            - >-
+              $client.DownloadFile("https://github.com/git-for-windows/git/releases/download/v2.23.0.windows.1/Git-2.23.0-64-bit.exe",
+              "C:\windows\temp\Git-2.23.0-64-bit.exe")
+            - >-
+              Start-Process C:\windows\temp\Git-2.23.0-64-bit.exe -ArgumentList
+              @("/SILENT", "/log", "installgit.log") -Wait
+            - 'C:\windows\temp\Git-2.23.0-64-bit.exe /SILENT'
+            - 'cd c:/windows/temp/'
+            - >-
+              C:\'Program Files'\Git\bin\git clone -n
+              git://github.com/aws-samples/aws-database-migration-samples
+            - 'cd c:/windows/temp/aws-database-migration-samples'
+            - 'C:\''Program Files''\Git\bin\git config core.sparseCheckout true'
+            - >-
+              Set-Content .git\info\sparse-checkout "sqlserver/*" -Encoding
+              Ascii
+            - 'C:\''Program Files''\Git\bin\git checkout master'
+            - '<# Install DATABASE dms_sample #>'
+            - 'cd c:/windows/temp/'
+            - >-
+              C:\'Program Files'\Git\bin\git clone -n
+              git://github.com/aws-samples/controltower-cloudendure-simulated-environment
+            - 'cd c:/windows/temp/controltower-cloudendure-simulated-environment'
+            - 'C:\''Program Files''\Git\bin\git config core.sparseCheckout true'
+            - >-
+              Set-Content .git\info\sparse-checkout "sqlserverdb" -Encoding
+              Ascii
+            - 'C:\''Program Files''\Git\bin\git checkout master'
+            - >-
+              sqlcmd -i
+              c:\windows\temp\controltower-cloudendure-simulated-environment\sqlserverdb\install-onprem.sql
+            - >-
+              Rename-Computer -ComputerName $env:computername -NewName
+              dmssampledatabase -Restart -Force
+            - </powershell>
+      KeyName: !Ref KeyName
+      Monitoring: false
+      IamInstanceProfile: !Ref DMSInstanceProfile
+      Tags:
+        - Key: Name
+          Value: Source Database - Sql Server
+        - Key: Database
+          Value: Sql Server 2016
+        - Key: DatabaseName
+          Value: dms_sample
+        - Key: Lab
+          Value: lab-controltower-cloudendure
+      NetworkInterfaces:
+        - DeleteOnTermination: true
+          Description: Primary network interface
+          DeviceIndex: '0'
+          SubnetId: !GetAtt 
+            - VPCStack
+            - Outputs.PrivateSubnet1AID
+          GroupSet:
+            - !Ref sgdatabasesource
+  # Security Group with application layer rules
+  sgweb:
+    Type: 'AWS::EC2::SecurityGroup'
+    Properties:
+      GroupDescription: Security Group Web
+      VpcId: !GetAtt 
+        - VPCStack
+        - Outputs.VPCID
+  # Security Group with database layer rules  
+  WebIngress1:
+    Type: 'AWS::EC2::SecurityGroupIngress'
+    Properties:
+      GroupId: !Ref sgweb
+      IpProtocol: tcp
+      FromPort: 80
+      ToPort: 80
+      CidrIp: !Ref MyClientIP
+  # Security Group with database layer rules    
+  sgdatabasesource:
+    Type: 'AWS::EC2::SecurityGroup'
+    Properties:
+      GroupDescription: Security Group - source DB
+      VpcId: !GetAtt 
+        - VPCStack
+        - Outputs.VPCID
+  # Rule allows application layer access to database layer.
+  sgdatabasesourceIngress3:
+    Type: 'AWS::EC2::SecurityGroupIngress'
+    Properties:
+      GroupId: !Ref sgdatabasesource
+      IpProtocol: tcp
+      FromPort: 1433
+      ToPort: 1433
+      SourceSecurityGroupId: !Ref sgweb
+  # Instance Profile to support the Amazon EC2 instance with the application
+  DMSInstanceProfile:
+    Type: 'AWS::IAM::InstanceProfile'
+    Properties:
+      Path: /
+      Roles:
+        - !Ref DMSRole
+  # Role to support the Amazon EC2 instance with the application
+  DMSRole:
+    Type: 'AWS::IAM::Role'
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - ec2.amazonaws.com
+            Action:
+              - 'sts:AssumeRole'
+      ManagedPolicyArns:
+        - 'arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore'
+      Path: /
+Outputs:
+  EC2ApplicationDotnetAccess:
+    Description: Dotnet Application Instance
+    Value: !GetAtt 
+      - EC2ApplicationDotnet
+      - PublicIp
+  EC2DatabaseSqlServerAccess:
+    Description: Private SQL Server Instance
+    Value: !GetAtt 
+      - SqlServerSource
+      - PrivateIp
