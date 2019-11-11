@@ -15,12 +15,6 @@
     }
   },
   "Mappings" : {
-    "AdminHost" : {
-      "us-east-1"      : {"ami" :  "ami-0daee40e15682f8fa"},
-      "us-east-2"      : {"ami" :  "ami-05cc7c0efc5469642"},
-      "us-west-2"      : {"ami" :  "ami-05cf702a535de6430"},
-      "sa-east-1"      : {"ami" :  "ami-039a1df2bc73444c8"}
-    },
     "SqlServerSource" : {
       "us-east-1"      : {"ami" :  "ami-0ef5efc96eebbe25a"},
       "us-east-2"      : {"ami" :  "ami-013bee73e7b64ee0b"},
@@ -46,9 +40,9 @@
     }},
     "EC2ApplicationDotnet": {
       "Type": "AWS::EC2::Instance",
-      "DependsOn": "VPCStack",
+     
       "Properties": {
-        "DisableApiTermination": "false",
+        "DisableApiTermination": false,
         "InstanceInitiatedShutdownBehavior": "stop",
         "ImageId" : { "Fn::FindInMap" : [ "ApplicationHost", { "Ref" : "AWS::Region" },"ami"]},
         "InstanceType": "t2.micro",
@@ -56,7 +50,7 @@
           "Ref" : "DMSInstanceProfile"
         },
         "KeyName": {"Ref" : "KeyName"},
-        "Monitoring": "false",
+        "Monitoring": false,
          "UserData": {
           "Fn::Base64": {
             "Fn::Join": [
@@ -110,9 +104,9 @@
         ],
         "NetworkInterfaces": [
           {
-            "DeleteOnTermination": "true",
+            "DeleteOnTermination": true,
             "Description": "Primary network interface",
-            "DeviceIndex": 0,
+            "DeviceIndex": "0",
             "SubnetId": {
               "Fn::GetAtt" : [ "VPCStack", "Outputs.PublicSubnet1ID" ] 
             },
@@ -121,18 +115,18 @@
                 "Ref": "sgweb"
               }
             ],
-            "AssociatePublicIpAddress": "true"
+            "AssociatePublicIpAddress": true
           }
         ]
       }
     },
     "SqlServerSource": {
       "Type": "AWS::EC2::Instance",
-      "DependsOn": "VPCStack",
+
       "Properties": {
-        "DisableApiTermination": "false",
+        "DisableApiTermination": false,
         "InstanceInitiatedShutdownBehavior": "stop",
-        "EbsOptimized": "true",
+        "EbsOptimized": false,
         "ImageId" : { "Fn::FindInMap" : [ "SqlServerSource", { "Ref" : "AWS::Region" },"ami"]},
         "InstanceType": "t3.xlarge",
         "UserData": {
@@ -169,7 +163,7 @@
           }
         },
         "KeyName": {"Ref" : "KeyName" },
-        "Monitoring": "false",
+        "Monitoring": false,
         "IamInstanceProfile" : {
           "Ref" : "DMSInstanceProfile"
          },
@@ -192,9 +186,9 @@
         ],
         "NetworkInterfaces": [
           {
-            "DeleteOnTermination": "true",
+            "DeleteOnTermination": true,
             "Description": "Primary network interface",
-            "DeviceIndex": 0,
+            "DeviceIndex": "0",
             "SubnetId": {
               "Fn::GetAtt" : [ "VPCStack", "Outputs.PrivateSubnet1AID" ]
             },
@@ -209,7 +203,6 @@
     },
     "sgweb": {
       "Type": "AWS::EC2::SecurityGroup",
-      "DependsOn": "VPCStack",
       "Properties": {
         "GroupDescription": "Security Group Web",
         "VpcId": {
@@ -219,7 +212,6 @@
     },
     "sgdatabasesource": {
       "Type": "AWS::EC2::SecurityGroup",
-      "DependsOn": "VPCStack",
       "Properties": {
         "GroupDescription": "Security Group - source DB",
         "VpcId": {
@@ -234,8 +226,8 @@
           "Ref": "sgweb"
         },
         "IpProtocol": "tcp",
-        "FromPort": "80",
-        "ToPort": "80",
+        "FromPort": 80,
+        "ToPort": 80,
         "CidrIp": {"Ref" : "MyClientIP"}
       }
     },
@@ -246,8 +238,8 @@
           "Ref": "sgdatabasesource"
         },
         "IpProtocol": "tcp",
-        "FromPort": "1433",
-        "ToPort": "1433",
+        "FromPort": 1433,
+        "ToPort": 1433,
         "SourceSecurityGroupId": {
           "Ref": "sgweb"
         }

@@ -44,8 +44,8 @@
           "Ref": "sgweb"
         },
         "IpProtocol": "tcp",
-        "FromPort": "80",
-        "ToPort": "80",
+        "FromPort": 80,
+        "ToPort": 80,
         "CidrIp": {"Ref": "MyClientIP"}
       }
     },
@@ -53,11 +53,11 @@
       "Type": "AWS::EC2::SecurityGroupIngress",
       "Properties": {
         "GroupId": {
-          "Ref": "sgdatabasesource"
+          "Ref": "sgdatabase"
         },
         "IpProtocol": "tcp",
-        "FromPort": "1433",
-        "ToPort": "1433",
+        "FromPort": 1433,
+        "ToPort": 1433,
         "SourceSecurityGroupId": {
           "Ref": "sgweb"
         }
