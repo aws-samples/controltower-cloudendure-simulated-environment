@@ -63,47 +63,41 @@ Resources:
       IamInstanceProfile: !Ref DMSInstanceProfile
       KeyName: !Ref KeyName
       Monitoring: false
-      UserData: !Base64 
-        'Fn::Join':
-          - '\n'
-          - - '#!/bin/bash'
-            - '# Install the files and packages from the metadata'
-            - '# install apache if not already installed'
-            - apt-get update
-            - apt-get install npm -y
-            - apt-get install apache2 -y
-            - a2enmod proxy
-            - a2enmod proxy_http
-            - a2enmod proxy_balancer
-            - a2enmod lbmethod_byrequests
-            - export HOME="/home/ubuntu"
-            - '# download application'
-            - cd /home/ubuntu/
-            - git init
-            - >-
-              git remote add -f origin
-              https://github.com/aws-samples/controltower-cloudendure-simulated-environment.git
-            - git config core.sparseCheckout true
-            - echo "AspNetCoreDmsSample/" >> .git/info/sparse-checkout
-            - git pull origin master
-            - cd /home/ubuntu/AspNetCoreDmsSample/
-            - npm install
-            - >-
-              dotnet publish /home/ubuntu/AspNetCoreDmsSample/DMSSample.csproj
-              -c Release -o /home/ubuntu/dmssample/
-            - '# override the existing site configuration'
-            - HTTPD_CONF=/etc/apache2/sites-available/000-default.conf
-            - cp /home/ubuntu/AspNetCoreDmsSample/virtualhost.conf $HTTPD_CONF
-            - '#Copy application service'
-            - >-
-              cp /home/ubuntu/AspNetCoreDmsSample/kestrel-aspnetcoreapp.service
-              /etc/systemd/system/
-            - '# use systemd to start and monitor dotnet application'
-            - systemctl enable kestrel-aspnetcoreapp.service
-            - systemctl start kestrel-aspnetcoreapp.service
-            - '# start apache'
-            - systemctl restart apache2.service
-            - hostnamectl set-hostname dotnetapplication
+      UserData: 
+        Fn::Base64: 
+          !Sub |
+            #!/bin/bash
+            # Install the files and packages from the metadata
+            # install apache if not already installed
+            apt-get update
+            apt-get install npm -y
+            apt-get install apache2 -y
+            a2enmod proxy
+            a2enmod proxy_http
+            a2enmod proxy_balancer
+            a2enmod lbmethod_byrequests
+            export HOME="/home/ubuntu"
+            # download application
+            cd /home/ubuntu/
+            git init
+            git remote add -f origin https://github.com/aws-samples/controltower-cloudendure-simulated-environment.git
+            git config core.sparseCheckout true
+            echo "AspNetCoreDmsSample/" >> .git/info/sparse-checkout
+            git pull origin master
+            cd /home/ubuntu/AspNetCoreDmsSample/
+            npm install
+            dotnet publish /home/ubuntu/AspNetCoreDmsSample/DMSSample.csproj -c Release -o /home/ubuntu/dmssample/
+            '# override the existing site configuration'
+            HTTPD_CONF=/etc/apache2/sites-available/000-default.conf
+            cp /home/ubuntu/AspNetCoreDmsSample/virtualhost.conf $HTTPD_CONF
+            '#Copy application service'
+            cp /home/ubuntu/AspNetCoreDmsSample/kestrel-aspnetcoreapp.service /etc/systemd/system/
+            # use systemd to start and monitor dotnet application
+            systemctl enable kestrel-aspnetcoreapp.service
+            systemctl start kestrel-aspnetcoreapp.service
+            # start apache
+            systemctl restart apache2.service
+            hostnamectl set-hostname dotnetapplication
       Tags:
         - Key: Name
           Value: Dotnet Application
@@ -131,53 +125,33 @@ Resources:
         - !Ref 'AWS::Region'
         - ami
       InstanceType: t3.xlarge
-      UserData: !Base64 
-        'Fn::Join':
-          - '\n'
-          - - <powershell>
-            - '<# Install AWS Systems Manager Agent #>'
-            - $client=new-object System.Net.WebClient
-            - >-
-              $client.DownloadFile("https://s3.amazonaws.com/ec2-downloads-windows/SSMAgent/latest/windows_amd64/AmazonSSMAgentSetup.exe",
-              "c:/windows/temp/AmazonSSMAgentSetup.exe")
-            - >-
-              Start-Process c:/windows/temp/AmazonSSMAgentSetup.exe
-              -ArgumentList @("/q", "/log", "install.log") -Wait
-            - >-
-              $client.DownloadFile("https://github.com/git-for-windows/git/releases/download/v2.23.0.windows.1/Git-2.23.0-64-bit.exe",
-              "C:\windows\temp\Git-2.23.0-64-bit.exe")
-            - >-
-              Start-Process C:\windows\temp\Git-2.23.0-64-bit.exe -ArgumentList
-              @("/SILENT", "/log", "installgit.log") -Wait
-            - 'C:\windows\temp\Git-2.23.0-64-bit.exe /SILENT'
-            - 'cd c:/windows/temp/'
-            - >-
-              C:\'Program Files'\Git\bin\git clone -n
-              git://github.com/aws-samples/aws-database-migration-samples
-            - 'cd c:/windows/temp/aws-database-migration-samples'
-            - 'C:\''Program Files''\Git\bin\git config core.sparseCheckout true'
-            - >-
-              Set-Content .git\info\sparse-checkout "sqlserver/*" -Encoding
-              Ascii
-            - 'C:\''Program Files''\Git\bin\git checkout master'
-            - '<# Install DATABASE dms_sample #>'
-            - 'cd c:/windows/temp/'
-            - >-
-              C:\'Program Files'\Git\bin\git clone -n
-              git://github.com/aws-samples/controltower-cloudendure-simulated-environment
-            - 'cd c:/windows/temp/controltower-cloudendure-simulated-environment'
-            - 'C:\''Program Files''\Git\bin\git config core.sparseCheckout true'
-            - >-
-              Set-Content .git\info\sparse-checkout "sqlserverdb" -Encoding
-              Ascii
-            - 'C:\''Program Files''\Git\bin\git checkout master'
-            - >-
-              sqlcmd -i
-              c:\windows\temp\controltower-cloudendure-simulated-environment\sqlserverdb\install-onprem.sql
-            - >-
-              Rename-Computer -ComputerName $env:computername -NewName
-              dmssampledatabase -Restart -Force
-            - </powershell>
+      UserData: 
+        Fn::Base64:
+          !Sub |
+            <powershell>
+            <# Install AWS Systems Manager Agent #>
+            $client=new-object System.Net.WebClient
+            $client.DownloadFile("https://s3.amazonaws.com/ec2-downloads-windows/SSMAgent/latest/windows_amd64/AmazonSSMAgentSetup.exe","c:/windows/temp/AmazonSSMAgentSetup.exe")
+            Start-Process c:/windows/temp/AmazonSSMAgentSetup.exe -ArgumentList @("/q", "/log", "install.log") -Wait
+            $client.DownloadFile("https://github.com/git-for-windows/git/releases/download/v2.23.0.windows.1/Git-2.23.0-64-bit.exe","C:\windows\temp\Git-2.23.0-64-bit.exe")
+            Start-Process C:\windows\temp\Git-2.23.0-64-bit.exe -ArgumentList @("/SILENT", "/log", "installgit.log") -Wait
+            C:\windows\temp\Git-2.23.0-64-bit.exe /SILENT
+            cd c:/windows/temp/
+            C:\'Program Files'\Git\bin\git clone -n git://github.com/aws-samples/aws-database-migration-samples
+            cd c:/windows/temp/aws-database-migration-samples'
+            C:\''Program Files''\Git\bin\git config core.sparseCheckout true
+            Set-Content .git\info\sparse-checkout "sqlserver/*" -Encoding Ascii
+            C:\''Program Files''\Git\bin\git checkout master
+            <# Install DATABASE dms_sample #>
+            cd c:/windows/temp/
+            C:\'Program Files'\Git\bin\git clone -n git://github.com/aws-samples/controltower-cloudendure-simulated-environment
+            cd c:/windows/temp/controltower-cloudendure-simulated-environment
+            C:\''Program Files''\Git\bin\git config core.sparseCheckout true
+            Set-Content .git\info\sparse-checkout "sqlserverdb" -Encoding Ascii
+            C:\''Program Files''\Git\bin\git checkout master
+            sqlcmd -i c:\windows\temp\controltower-cloudendure-simulated-environment\sqlserverdb\install-onprem.sql
+            Rename-Computer -ComputerName $env:computername -NewName dmssampledatabase -Restart -Force
+            </powershell>
       KeyName: !Ref KeyName
       Monitoring: false
       IamInstanceProfile: !Ref DMSInstanceProfile
