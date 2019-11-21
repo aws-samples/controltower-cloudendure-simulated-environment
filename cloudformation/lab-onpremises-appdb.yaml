@@ -65,8 +65,7 @@ Resources:
       Monitoring: false
       UserData: !Base64 
         'Fn::Join':
-          - |+
-
+          - '\n'
           - - '#!/bin/bash'
             - '# Install the files and packages from the metadata'
             - '# install apache if not already installed'
@@ -134,8 +133,7 @@ Resources:
       InstanceType: t3.xlarge
       UserData: !Base64 
         'Fn::Join':
-          - |+
-
+          - '\n'
           - - <powershell>
             - '<# Install AWS Systems Manager Agent #>'
             - $client=new-object System.Net.WebClient
