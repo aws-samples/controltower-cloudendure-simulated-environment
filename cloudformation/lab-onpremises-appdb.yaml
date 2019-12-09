@@ -138,17 +138,17 @@ Resources:
             C:\windows\temp\Git-2.23.0-64-bit.exe /SILENT
             cd c:/windows/temp/
             C:\'Program Files'\Git\bin\git clone -n git://github.com/aws-samples/aws-database-migration-samples
-            cd c:/windows/temp/aws-database-migration-samples'
+            cd c:/windows/temp/aws-database-migration-samples
             C:\''Program Files''\Git\bin\git config core.sparseCheckout true
             Set-Content .git\info\sparse-checkout "sqlserver/*" -Encoding Ascii
-            C:\''Program Files''\Git\bin\git checkout master
+            C:\'Program Files'\Git\bin\git checkout master
             <# Install DATABASE dms_sample #>
             cd c:/windows/temp/
             C:\'Program Files'\Git\bin\git clone -n git://github.com/aws-samples/controltower-cloudendure-simulated-environment
             cd c:/windows/temp/controltower-cloudendure-simulated-environment
-            C:\''Program Files''\Git\bin\git config core.sparseCheckout true
+            C:\'Program Files'\Git\bin\git config core.sparseCheckout true
             Set-Content .git\info\sparse-checkout "sqlserverdb" -Encoding Ascii
-            C:\''Program Files''\Git\bin\git checkout master
+            C:\'Program Files'\Git\bin\git checkout master
             sqlcmd -i c:\windows\temp\controltower-cloudendure-simulated-environment\sqlserverdb\install-onprem.sql
             Rename-Computer -ComputerName $env:computername -NewName dmssampledatabase -Restart -Force
             </powershell>
