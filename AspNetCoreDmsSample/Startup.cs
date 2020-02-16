@@ -21,10 +21,6 @@ namespace DMSSample
 {
     public class Startup
     {
-        // public Startup(IConfiguration configuration)
-        // {
-        //     Configuration = configuration;
-        // }
 
         public Startup(IHostingEnvironment env)
         {
@@ -41,8 +37,6 @@ namespace DMSSample
         // THIS CODE IS FOR STUDY PURPOSES ONLY. 
         // Check out better ways to get AWS credentials for your app in the AWS documentation.
         private void SetEnvironment(){
-            Environment.SetEnvironmentVariable("AWS_ACCESS_KEY_ID", Configuration["AWS:AccesKeyId"]);
-            Environment.SetEnvironmentVariable("AWS_SECRET_ACCESS_KEY", Configuration["AWS:SecretAccessKey"]);
             Environment.SetEnvironmentVariable("AWS_REGION", Configuration["AWS:Region"]); 
         }
 
