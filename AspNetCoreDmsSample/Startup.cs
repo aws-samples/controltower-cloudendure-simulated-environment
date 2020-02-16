@@ -31,13 +31,6 @@ namespace DMSSample
                 .AddEnvironmentVariables();
             Configuration = builder.Build();
 
-            SetEnvironment();
-        }
-
-        // THIS CODE IS FOR STUDY PURPOSES ONLY. 
-        // Check out better ways to get AWS credentials for your app in the AWS documentation.
-        private void SetEnvironment(){
-            Environment.SetEnvironmentVariable("AWS_REGION", Configuration["AWS:Region"]); 
         }
 
         public IConfiguration Configuration { get; }
