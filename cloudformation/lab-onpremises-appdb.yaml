@@ -73,9 +73,9 @@ Resources:
             #!/bin/bash
             # Install the files and packages from the metadata
             # install apache if not already installed
-            apt-get update
-            apt-get install --assume-yes npm
-            apt-get install --assume-yes apache2
+            apt-get -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" update
+            apt-get -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" install npm
+            apt-get -y -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" install apache2
             a2enmod proxy
             a2enmod proxy_http
             a2enmod proxy_balancer
