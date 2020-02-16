@@ -17,16 +17,20 @@ Parameters:
       It must be a valid IP CIDR range of the form X.X.X.X/X and cannot be 0.0.0.0/0. Suggest to enable
       access to your IP address only X.X.X.X/32.
 Mappings:
-  # Windows AMI with SqlServer to install DMSSampleDatabase
+  # Windows AMI with Microsoft Windows Server 2019 with SQL Server 2017 Standard to install DMSSampleDatabase
   SqlServerSource:
+    # Virginia
     us-east-1:
-      ami: ami-0ef5efc96eebbe25a
+      ami: ami-0ca1b1803a0837d78
+    # Ohio
     us-east-2:
-      ami: ami-013bee73e7b64ee0b
+      ami: ami-0aa302b3e12260e43
+    # Oregon
     us-west-2:
-      ami: ami-0a454d3892fb3ddc6
+      ami: ami-0c24523f82c0eb7d2
+    # Sao Paulo
     sa-east-1:
-      ami: ami-05309e217f8994613
+      ami: ami-04d2709dffee858a0
   # Linux AMI to support the application
   ApplicationHost:
     us-east-1:
@@ -70,8 +74,8 @@ Resources:
             # Install the files and packages from the metadata
             # install apache if not already installed
             apt-get update
-            apt-get install npm -y
-            apt-get install apache2 -y
+            apt-get install --assume-yes npm
+            apt-get install --assume-yes apache2
             a2enmod proxy
             a2enmod proxy_http
             a2enmod proxy_balancer
