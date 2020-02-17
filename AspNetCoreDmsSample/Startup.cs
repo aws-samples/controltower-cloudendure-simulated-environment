@@ -32,14 +32,6 @@ namespace DMSSample
                 .AddEnvironmentVariables();
             Configuration = builder.Build();
 
-            SetEnvironment();
-        }
-
-        // As the EC2 instance has role attached, you don't need to fix credentials on appsettings.json
-        private void SetEnvironment(){
-            Environment.SetEnvironmentVariable("AWS_ACCESS_KEY_ID", Configuration["AWS:AccesKeyId"]);
-            Environment.SetEnvironmentVariable("AWS_SECRET_ACCESS_KEY", Configuration["AWS:SecretAccessKey"]);
-            Environment.SetEnvironmentVariable("AWS_REGION", Configuration["AWS:Region"]); 
         }
 
         public IConfiguration Configuration { get; }
