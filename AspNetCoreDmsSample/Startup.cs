@@ -70,7 +70,7 @@ namespace DMSSample
             services.Configure<AppSettings>(Configuration.GetSection("AppSettings"));
             services.AddSingleton<IConfiguration>(Configuration);
 
-            if (Configuration.GetAWSOptions() ! null){
+            if (Configuration.GetAWSOptions() != null){
                 services.AddDefaultAWSOptions(Configuration.GetAWSOptions());
                 services.AddAWSService<IAmazonDatabaseMigrationService>(ServiceLifetime.Singleton);
             }
