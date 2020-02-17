@@ -39,8 +39,7 @@ namespace DMSSample
             SetEnvironment();
         }
 
-        // THIS CODE IS FOR STUDY PURPOSES ONLY. 
-        // Check out better ways to get AWS credentials for your app in the AWS documentation.
+        // As the EC2 instance has role, you don't need to fix credentials on appsettings.json
         private void SetEnvironment(){
             Environment.SetEnvironmentVariable("AWS_ACCESS_KEY_ID", Configuration["AWS:AccesKeyId"]);
             Environment.SetEnvironmentVariable("AWS_SECRET_ACCESS_KEY", Configuration["AWS:SecretAccessKey"]);
