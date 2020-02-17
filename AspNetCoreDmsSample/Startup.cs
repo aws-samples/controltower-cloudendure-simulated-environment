@@ -35,7 +35,7 @@ namespace DMSSample
             SetEnvironment();
         }
 
-        // As the EC2 instance has role, you don't need to fix credentials on appsettings.json
+        // As the EC2 instance has role attached, you don't need to fix credentials on appsettings.json
         private void SetEnvironment(){
             Environment.SetEnvironmentVariable("AWS_ACCESS_KEY_ID", Configuration["AWS:AccesKeyId"]);
             Environment.SetEnvironmentVariable("AWS_SECRET_ACCESS_KEY", Configuration["AWS:SecretAccessKey"]);
