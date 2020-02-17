@@ -17,6 +17,7 @@ using Amazon.DatabaseMigrationService;
 using Amazon.Extensions.NETCore.Setup;
 using Microsoft.AspNetCore.Diagnostics;
 
+
 namespace DMSSample
 {
     public class Startup
@@ -70,11 +71,9 @@ namespace DMSSample
             services.Configure<AppSettings>(Configuration.GetSection("AppSettings"));
             services.AddSingleton<IConfiguration>(Configuration);
 
-            if (Configuration.GetAWSOptions() != null){
-                services.AddDefaultAWSOptions(Configuration.GetAWSOptions());
-                services.AddAWSService<IAmazonDatabaseMigrationService>(ServiceLifetime.Singleton);
-            }
-
+            services.AddDefaultAWSOptions(Configuration.GetAWSOptions());
+            services.AddAWSService<IAmazonDatabaseMigrationService>(ServiceLifetime.Singleton);
+            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
