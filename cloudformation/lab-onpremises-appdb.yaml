@@ -71,11 +71,12 @@ Resources:
         Fn::Base64: 
           !Sub |
             #!/bin/bash
+            # Set environment variable to avoid unwanted confirmation dialogs
+            export DEBIAN_FRONTEND=noninteractive
             # Install the files and packages from the metadata
             # install apache if not already installed
-            apt-get -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" update
-            apt-get -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" install npm
-            apt-get -y -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" install apache2
+            apt-get -y update
+            apt-get -y install npm apache2
             a2enmod proxy
             a2enmod proxy_http
             a2enmod proxy_balancer
