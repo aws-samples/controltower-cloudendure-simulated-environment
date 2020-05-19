@@ -19,7 +19,7 @@ The installation process creates the dotnet core application and a database, loa
 * IAM role that give access to AWS Systems Manager to help you installing CloudEndure agents.
 
 **Installation Instructions**
-* Access the blog post <b>Migrating an Existing Workload to an AWS Control Tower governed Account using CloudEndure</b> to have detailed guidance about it.
+* Access the blog post <b><a href="https://aws.amazon.com/blogs/mt/how-to-take-advantage-of-aws-control-tower-and-cloudendure-to-migrate-workloads-to-aws/">How to take advantage of AWS Control Tower and CloudEndure to migrate workloads to AWS</a></b> to have detailed guidance about it.
 ...it takes 5 minutes to finish the installation and 10 minutes to finish database creation
 
 **Clean up**
