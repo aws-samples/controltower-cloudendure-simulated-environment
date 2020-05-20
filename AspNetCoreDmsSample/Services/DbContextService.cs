@@ -31,9 +31,10 @@ namespace DMSSample.Services
                     primaryDBContext = new MySQLContext(primaryConnectionString);
                     break;
                 default:
-                    primaryConnectionString = SQLConnectionString.Replace("{server}", model.PrimaryServerName).Replace("{database}", model.PrimaryDatabaseName).Replace("{user id}", model.PrimaryUserName).Replace("{password}", model.PrimaryPassword);    
-                    primaryDBContext = new SQLContext(primaryConnectionString);
-                    break;
+                    throw new ArgumentOutOfRangeException("PrimaryServerName", null, "Could not establish connection to Primary Database Server");
+                    // primaryConnectionString = SQLConnectionString.Replace("{server}", model.PrimaryServerName).Replace("{database}", model.PrimaryDatabaseName).Replace("{user id}", model.PrimaryUserName).Replace("{password}", model.PrimaryPassword);    
+                    // primaryDBContext = new SQLContext(primaryConnectionString);
+                    // break;
             }
             return primaryDBContext;
         }

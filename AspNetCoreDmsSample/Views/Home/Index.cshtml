@@ -9,179 +9,182 @@
     </div>
 </div>
 <hr />
-<form action="/Home" method="post">
-    <div class="row">
-        <div class="col-5">    
-            <h5>Primary Database</h5>
-            @if(ViewData["PrimaryConnectionMessage"] != null && !String.IsNullOrEmpty(ViewData["PrimaryConnectionMessage"].ToString())) {
-                <div class="form-group">
-                    <div class="alert alert-@((bool)ViewData["PrimaryConnectionError"] ? "danger" : "success")">
-                        <i class="fa fa-@((bool)ViewData["PrimaryConnectionError"] ? "exclamation-triangle" : "check-circle")"></i>
-                        @ViewData["PrimaryConnectionMessage"].ToString()
-                    </div>                
+<form action="/Home" class="w-100" method="post">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-5">    
+                <h5>Primary Database</h5>
+                @if(ViewData["PrimaryConnectionMessage"] != null && !String.IsNullOrEmpty(ViewData["PrimaryConnectionMessage"].ToString())) {
+                    <div class="row mt-2 mb-2">
+                        <div class="col-12 alert alert-@((bool)ViewData["PrimaryConnectionError"] ? "danger" : "success")">
+                            <i class="fa fa-@((bool)ViewData["PrimaryConnectionError"] ? "exclamation-triangle" : "check-circle")"></i>
+                            @ViewData["PrimaryConnectionMessage"].ToString()
+                        </div>                
+                    </div>
+                }
+                    <div class="container">
+                        <div class="row mt-2 mb-2">
+                            <div class="col-md-4">
+                                @Html.DisplayNameFor(model => model.PrimaryServerType):
+                            </div> 
+                            <div class="col-md-8">
+                                @Html.DropDownList("PrimaryServerType", (IEnumerable<SelectListItem>)ViewData["PrimaryServerTypeList"], "", new {  @class = "form-control" })
+                            </div>
+                        </div>
+                        <div class="row mt-2 mb-2">
+                            <div class="col-md-4">
+                                @Html.DisplayNameFor(model => model.PrimaryServerName): 
+                            </div> 
+                            <div class="col-md-8">
+                                <input asp-for="PrimaryServerName" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="row mt-2 mb-2">
+                            <div class="col-md-4">
+                                @Html.DisplayNameFor(model => model.PrimaryDatabaseName): 
+                            </div> 
+                            <div class="col-md-8">
+                                <input asp-for="PrimaryDatabaseName" class="form-control"/>
+                            </div>
+                        </div>
+                        <div class="row mt-2 mb-2">
+                            <div class="col-md-4">
+                                 @Html.DisplayNameFor(model => model.PrimaryUserName): 
+                            </div> 
+                            <div class="col-md-8">
+                                <input asp-for="PrimaryUserName" class="form-control"/>
+                            </div>
+                        </div>
+                        <div class="row mt-2 mb-2">
+                            <div class="col-md-4">
+                                 @Html.DisplayNameFor(model => model.PrimaryPassword): 
+                            </div> 
+                            <div class="col-md-8">
+                                <input asp-for="PrimaryPassword" class="form-control" type="password"  value="@Model.PrimaryPassword"/>
+                            </div>
+                        </div>
+                    </div>
+            </div>
+            <div class="col-lg-2 align-middle text-center align-content-center">
+                <button type="submit" formaction="/Home/Switch" class="btn btn-success d-none d-lg-block text-nowrap m-auto" >
+                    <i class="fa fa-arrow-right"></i>
+                    Swap
+                    <i class="fa fa-arrow-left"></i>
+                </button>
+                <button type="submit" formaction="/Home/Switch" class="btn btn-success d-lg-none nowrap">
+                    <i class="fa fa-arrow-up"></i>
+                    Swap
+                    <i class="fa fa-arrow-down"></i>
+                </button>
+            </div>
+
+            <div class="col-lg-5">    
+                <h5>Secondary Database</h5>
+                @if(ViewData["ReplicaConnectionMessage"] != null && !String.IsNullOrEmpty(ViewData["ReplicaConnectionMessage"].ToString())) {
+                    <div class="row mt-2 mb-2">
+                        <div class="col-12 alert alert-@((bool)ViewData["ReplicaConnectionError"] ? "danger" : "success")">
+                            <i class="fa fa-@((bool)ViewData["ReplicaConnectionError"] ? "exclamation-triangle" : "check-circle")"></i>
+                            @ViewData["ReplicaConnectionMessage"].ToString()
+                        </div>                
+                    </div>
+                }
+                    <div class="container">
+                        <div class="row mt-2 mb-2">
+                            <div class="col-md-4">
+                                 @Html.DisplayNameFor(model => model.ReplicaServerType): 
+                            </div> 
+                            <div class="col-md-8">
+                                @Html.DropDownList("ReplicaServerType", (IEnumerable<SelectListItem>)ViewData["ReplicaServerTypeList"], "", new {  @class = "form-control" })
+                            </div>
+                        </div>
+                        <div class="row mt-2 mb-2">
+                            <div class="col-md-4">
+                                 @Html.DisplayNameFor(model => model.ReplicaServerName): 
+                            </div> 
+                            <div class="col-md-8">
+                                <input asp-for="ReplicaServerName" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="row mt-2 mb-2">
+                            <div class="col-md-4">
+                                 @Html.DisplayNameFor(model => model.ReplicaDatabaseName): 
+                            </div> 
+                            <div class="col-md-8">
+                                <input asp-for="ReplicaDatabaseName" class="form-control"/>
+                            </div>
+                        </div>
+                        <div class="row mt-2 mb-2">
+                            <div class="col-md-4">
+                                 @Html.DisplayNameFor(model => model.ReplicaUserName): 
+                            </div> 
+                            <div class="col-md-8">
+                                <input asp-for="ReplicaUserName" class="form-control"/>
+                            </div>
+                        </div>
+                        <div class="row mt-2 mb-2">
+                            <div class="col-md-4">
+                                @Html.DisplayNameFor(model => model.ReplicaPassword): 
+                            </div> 
+                            <div class="col-md-8">
+                                <input asp-for="ReplicaPassword" class="form-control" type="password"  value="@Model.ReplicaPassword"/>
+                            </div>
+                        </div>
+                    </div>
+            </div>
+        </div>
+        <hr>
+
+        <div class="row">
+            <div class="col-12">
+                <h5>AWS API Parameters</h5>
+                @if(ViewData["AWSConnectionMessage"] != null && !String.IsNullOrEmpty(ViewData["AWSConnectionMessage"].ToString())) {
+                    <div class="row mt-2 mb-2">
+                        <div class="col-12 alert alert-@((bool)ViewData["AWSConnectionError"] ? "danger" : "success")">
+                            <i class="fa fa-@((bool)ViewData["AWSConnectionError"] ? "exclamation-triangle" : "check-circle")"></i>
+                            @ViewData["AWSConnectionMessage"].ToString()
+                        </div>                
+                    </div>
+                }
+                <div class="container">
+                        <div class="row mt-2 mb-2">
+                            <div class="col-lg-4">
+                                 @Html.DisplayNameFor(model => model.AccessKey): 
+                            </div> 
+                            <div class="col-lg-8">
+                                <input asp-for="AccessKey" class="form-control"/>
+                            </div>
+                        </div>
+                        <div class="row mt-2 mb-2">
+                            <div class="col-lg-4">
+                                 @Html.DisplayNameFor(model => model.SecretKey): 
+                            </div> 
+                            <div class="col-lg-8">
+                                <input asp-for="SecretKey" class="form-control"/>
+                            </div>
+                        </div>
+                        <div class="row mt-2 mb-2">
+                            <div class="col-lg-4">
+                                 @Html.DisplayNameFor(model => model.ReplicationTaskArn): 
+                            </div> 
+                            <div class="col-lg-8">
+                                <input asp-for="ReplicationTaskArn" class="form-control"/>
+                            </div>
+                        </div>
+                        <div class="row mt-2 mb-2">
+                            <div class="col-lg-4">
+                                 @Html.DisplayNameFor(model => model.EndPointArn): 
+                            </div> 
+                            <div class="col-lg-8">
+                                <input asp-for="EndPointArn" class="form-control"/>
+                            </div>
+                        </div>
                 </div>
-            }
-            
-                <dl class="d-sm-flex">
-                   <dt class="col-form-label col-4">
-                        @Html.DisplayNameFor(model => model.PrimaryServerType): 
-                   </dt>
-                   <dd class="col-form-label col-8">
-                       @Html.DropDownList("PrimaryServerType", (IEnumerable<SelectListItem>)ViewData["PrimaryServerTypeList"], "", new {  @class = "form-control" })
-                   </dd> 
-                </dl>
-
-                <dl class="d-sm-flex">
-                   <dt class="col-form-label col-4">
-                        @Html.DisplayNameFor(model => model.PrimaryServerName): 
-                   </dt>
-                   <dd class="col-form-label col-8">
-                       <input asp-for="PrimaryServerName" class="form-control" />
-                   </dd> 
-                </dl>
-
-                <dl class="d-sm-flex">
-                   <dt class="col-form-label col-4">
-                        @Html.DisplayNameFor(model => model.PrimaryDatabaseName): 
-                   </dt>
-                   <dd class="col-form-label col-8">
-                       <input asp-for="PrimaryDatabaseName" class="form-control"/>
-                   </dd> 
-                </dl>
-
-                <dl class="d-sm-flex">
-                   <dt class="col-form-label col-4">
-                        @Html.DisplayNameFor(model => model.PrimaryUserName): 
-                   </dt>
-                   <dd class="col-form-label col-8">
-                       <input asp-for="PrimaryUserName" class="form-control"/>
-                   </dd> 
-                </dl>
-
-                <dl class="d-sm-flex">
-                   <dt class="col-form-label col-4">
-                        @Html.DisplayNameFor(model => model.PrimaryPassword): 
-                   </dt>
-                   <dd class="col-form-label col-8">
-                       <input asp-for="PrimaryPassword" class="form-control" type="password"  value="@Model.PrimaryPassword"/>
-                   </dd> 
-                </dl>
-
+            </div>
         </div>
-        <div class="col-2 align-middle align-self-center align-items-center text-center">
-            <button type="submit" formaction="/Home/Switch" class="btn btn-success" style="width: 100pt">
-                <i class="fa fa-arrow-right"></i>
-                Switch
-                <i class="fa fa-arrow-left"></i>
-            </button>
-        </div>
-        <div class="col-5">    
-            <h5>Secondary Database</h5>
-             @if(ViewData["ReplicaConnectionMessage"] != null && !String.IsNullOrEmpty(ViewData["ReplicaConnectionMessage"].ToString())) {
-                <div class="form-group">
-                    <div class="alert alert-@((bool)ViewData["ReplicaConnectionError"] ? "danger" : "success")">
-                        <i class="fa fa-@((bool)ViewData["ReplicaConnectionError"] ? "exclamation-triangle" : "check-circle")"></i>
-                        @ViewData["ReplicaConnectionMessage"].ToString()
-                    </div>                
-                </div>
-            }
-
-                <dl class="d-sm-flex">
-                   <dt class="col-form-label col-4">
-                        @Html.DisplayNameFor(model => model.ReplicaServerType): 
-                   </dt>
-                   <dd class="col-form-label col-8">
-                       @Html.DropDownList("ReplicaServerType", (IEnumerable<SelectListItem>)ViewData["ReplicaServerTypeList"], "", new {  @class = "form-control" })
-                   </dd> 
-                </dl>
-
-                <dl class="d-sm-flex">
-                   <dt class="col-form-label col-4">
-                        @Html.DisplayNameFor(model => model.ReplicaServerName): 
-                   </dt>
-                   <dd class="col-form-label col-8">
-                       <input asp-for="ReplicaServerName" class="form-control" />
-                   </dd> 
-                </dl>
-
-                <dl class="d-sm-flex">
-                   <dt class="col-form-label col-4">
-                        @Html.DisplayNameFor(model => model.ReplicaDatabaseName): 
-                   </dt>
-                   <dd class="col-form-label col-8">
-                       <input asp-for="ReplicaDatabaseName" class="form-control"/>
-                   </dd> 
-                </dl>
-
-                <dl class="d-sm-flex">
-                   <dt class="col-form-label col-4">
-                        @Html.DisplayNameFor(model => model.ReplicaUserName): 
-                   </dt>
-                   <dd class="col-form-label col-8">
-                       <input asp-for="ReplicaUserName" class="form-control"/>
-                   </dd> 
-                </dl>
-
-                <dl class="d-sm-flex">
-                   <dt class="col-form-label col-4">
-                        @Html.DisplayNameFor(model => model.ReplicaPassword): 
-                   </dt>
-                   <dd class="col-form-label col-8">
-                       <input asp-for="ReplicaPassword" class="form-control" type="password"  value="@Model.ReplicaPassword"/>
-                   </dd> 
-                </dl>
-        </div>
-    </div>
-    <hr>
-
-    <div class="row">
-        <div class="col-12">
-            <h5>AWS API Parameters</h5>
-             @if(ViewData["AWSConnectionMessage"] != null && !String.IsNullOrEmpty(ViewData["AWSConnectionMessage"].ToString())) {
-                <div class="form-group">
-                    <div class="alert alert-@((bool)ViewData["AWSConnectionError"] ? "danger" : "success")">
-                        <i class="fa fa-@((bool)ViewData["AWSConnectionError"] ? "exclamation-triangle" : "check-circle")"></i>
-                        @ViewData["AWSConnectionMessage"].ToString()
-                    </div>                
-                </div>
-            }
-            <dl class="d-sm-flex">
-                <dt class="col-form-label col-3">
-                    @Html.DisplayNameFor(model => model.AccessKey): 
-                </dt>
-                <dd class="col-form-label col-9">
-                    <input asp-for="AccessKey" class="form-control"/>
-                </dd>
-            </dl>
-            <dl class="d-sm-flex">
-                <dt class="col-form-label col-3">
-                    @Html.DisplayNameFor(model => model.SecretKey): 
-                </dt>
-                <dd class="col-form-label col-9">
-                    <input asp-for="SecretKey" class="form-control"/>
-                </dd>
-            </dl>
-            <dl class="d-sm-flex">
-                <dt class="col-form-label col-3">
-                    @Html.DisplayNameFor(model => model.ReplicationTaskArn): 
-                </dt>
-                <dd class="col-form-label col-9">
-                    <input asp-for="ReplicationTaskArn" class="form-control"/>
-                </dd> 
-            </dl>
-            <dl class="d-sm-flex">
-                <dt class="col-form-label col-3">
-                    @Html.DisplayNameFor(model => model.EndPointArn): 
-                </dt>
-                <dd class="col-form-label col-9">
-                    <input asp-for="EndPointArn" class="form-control"/>
-                </dd> 
-            </dl>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-12 text-center">
-            <button type="submit" formaction="/Home/Apply" class="btn btn-primary" style="width:100pt">Apply</button>
+        <div class="row">
+            <div class="col-12 text-center mb-4">
+                <button type="submit" formaction="/Home/Apply" class="btn btn-primary" style="width:100pt">Apply</button>
+            </div>
         </div>
     </div>
 </form>

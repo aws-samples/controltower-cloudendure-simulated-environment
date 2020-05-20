@@ -16,6 +16,7 @@ using Microsoft.Extensions.Logging;
 using Amazon.DatabaseMigrationService;
 using Amazon.Extensions.NETCore.Setup;
 using Microsoft.AspNetCore.Diagnostics;
+using Amazon.DynamoDBv2;
 
 
 namespace DMSSample
@@ -46,19 +47,28 @@ namespace DMSSample
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
+            services.Configure<AppSettings>(Configuration.GetSection("AppSettings"));
+            services.AddSingleton<IConfiguration>(Configuration);
+            services.AddDefaultAWSOptions(Configuration.GetAWSOptions());
+            services.AddOptions();
+
             services.AddEntityFrameworkSqlServer().AddDbContext<SQLContext>();
             services.AddEntityFrameworkSqlServer().AddDbContext<MySQLContext>();
 
             services.AddScoped<IDbContextService, DbContextService>();
+
+            // ENABLE THE FOLLOWING 2 INSTRUCTIONS TO ENABLE DYNAMODB SESSION STATE
+            // services.AddDistributedDynamoDbCache(options => { 
+            //     options.TableName = "DMS_Session_State"; 
+            //     options.IdleTimeout = new TimeSpan(0, 10, 0); 
+            //     options.TtlAttribute = "TTL";
+            // });
+            // services.AddAWSService<IAmazonDynamoDB>();
+
+            // ENABLE THE FOLLOWING LINE TO ENABLE IN-MEMORY SESSION STATE
             services.AddDistributedMemoryCache();
             services.AddSession();
-
-            services.AddOptions();
-
-            services.Configure<AppSettings>(Configuration.GetSection("AppSettings"));
-            services.AddSingleton<IConfiguration>(Configuration);
-
-            services.AddDefaultAWSOptions(Configuration.GetAWSOptions());
+            
             services.AddAWSService<IAmazonDatabaseMigrationService>(ServiceLifetime.Singleton);
             
         }

@@ -172,8 +172,18 @@ namespace DMSSample.Controllers
             dbServerTypes.Add(new DBServerTypeModel("SQLServer"));
             dbServerTypes.Add(new DBServerTypeModel("MySQL"));   
             
-            return new SelectList(dbServerTypes, "Id", "Name", selectedItem);
+            if(!string.IsNullOrEmpty(selectedItem)){
+                return new SelectList(dbServerTypes, "Id", "Name", selectedItem);
+            }else{
+                return new SelectList(dbServerTypes, "Id", "Name");
+            }
+        }
 
+        public IActionResult Logout()
+        {
+            HttpContext.Session.Clear();
+
+            return Index(null);
         }
 
         public IActionResult About()
