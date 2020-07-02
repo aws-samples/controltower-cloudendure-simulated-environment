@@ -16,29 +16,53 @@ Parameters:
     ConstraintDescription: >-
       It must be a valid IP CIDR range of the form X.X.X.X/X and cannot be 0.0.0.0/0. Suggest to enable
       access to your IP address only X.X.X.X/32.
+  
+      # Windows AMI with Microsoft Windows Server 2019 with SQL Server 2017 Standard to install DMSSampleDatabase
+  LatestAmiIdWindowsSQL:
+    Type: 'AWS::SSM::Parameter::Value<AWS::EC2::Image::Id>'
+    Default: '/aws/service/ami-windows-latest/Windows_Server-2019-English-Full-SQL_2017_Standard'
+  
 Mappings:
-  # Windows AMI with Microsoft Windows Server 2019 with SQL Server 2017 Standard to install DMSSampleDatabase
-  SqlServerSource:
-    # Virginia
-    us-east-1:
-      ami: ami-03a68888130275a48
-    # Ohio
-    us-east-2:
-      ami: ami-068e444c5240485ee
-    # Oregon
-    us-west-2:
-      ami: ami-024c00f2fbffed31f
-    # Sao Paulo
-    sa-east-1:
-      ami: ami-0d024977dd270f27d
   # Linux AMI to support the application
   ApplicationHost:
     us-east-1:
       ami: ami-e24b7d9d
     us-east-2:
       ami: ami-f4f4cf91
+    us-west-1:
+      ami: ami-9157b4f2
     us-west-2:
       ami: ami-702d7f08
+    af-south-1:
+      ami: ami-0483533c1b85f4360    
+    ap-east-1:
+      ami: ami-0064c66bad1918a14
+    ap-south-1:
+      ami: ami-8c97a6e3
+    ap-northeast-2:
+      ami: ami-0d0bbf63
+    ap-southeast-1:
+      ami: ami-acd3ab46
+    ap-southeast-2:
+      ami: ami-8a3f9ae8
+    ap-northeast-1:
+      ami: ami-6ccaa781
+    ca-central-1:
+      ami: ami-90c14cf4
+    eu-central-1:
+      ami: ami-c9e6e122
+    eu-west-1:
+      ami: ami-34435ede
+    eu-west-2:
+      ami: ami-14fb1073
+    eu-south-1:
+      ami: ami-0aad090f6ce3907f7
+    eu-west-3:
+      ami: ami-38a01045
+    eu-north-1:
+      ami: ami-7771fd09
+    me-south-1:
+      ami: ami-0895dc6062533e39f
     sa-east-1:
       ami: ami-c399beaf
 Resources:
@@ -125,10 +149,7 @@ Resources:
       DisableApiTermination: false
       InstanceInitiatedShutdownBehavior: stop
       EbsOptimized: false
-      ImageId: !FindInMap 
-        - SqlServerSource
-        - !Ref 'AWS::Region'
-        - ami
+      ImageId: !Ref LatestAmiIdWindowsSQL
       InstanceType: t3.xlarge
       UserData: 
         Fn::Base64:
